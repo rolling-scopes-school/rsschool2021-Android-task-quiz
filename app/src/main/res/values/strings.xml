@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Quiz</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="button_start">Start</string>
+    <string name="tv_result">Result</string>
+    <string name="button_share">Share</string>
+    <string name="button_back">Back</string>
+    <string name="button_exit">Exit</string>
+    <string name="button_previous">Previous</string>
+    <string name="button_next1">Next</string>
+    <string name="button_next2">Submit</string>
 </resources>

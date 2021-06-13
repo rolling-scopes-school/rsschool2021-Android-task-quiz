@@ -24,4 +24,14 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/yellow_100_dark</item>
     </style>
+
+    <style name="Theme.Quiz.Three" parent="Theme.Quiz">
+        <item name="colorPrimary">#C8815997</item>
+        <item name="colorPrimaryDark">#C85C217C</item>
+        <item name="android:windowBackground">#C8CCC2D1</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">#F3612E</item>
+    </style>
+
 </resources>
