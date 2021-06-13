@@ -44,7 +44,6 @@ class QuizFragment : Fragment() {
                     R.id.item_test -> {
                         view?.findNavController()
                             ?.navigate(QuizFragmentDirections.actionQuizFragmentToStartFragment())
-
                         true
                     }
                     else -> true
@@ -144,13 +143,13 @@ class QuizFragment : Fragment() {
 
     //выбор темы
     private fun setTheme(): Int {
-        return R.style.Theme_Quiz_Three
-//        return when (questionNumber) {
-//            0 -> R.style.Theme_Quiz_First
-//            1 -> R.style.Theme_Quiz_Second
-//            2 -> R.style.Theme_Quiz_Three
-//            else -> R.style.Theme_Quiz_Second
-//        }
+        return when (questionNumber) {
+            0 -> R.style.Theme_Quiz_Second
+            2 -> R.style.Theme_Quiz_First
+            3 -> R.style.Theme_Quiz_Three
+            4 -> R.style.Theme_Quiz_Fourth
+            else -> R.style.Theme_Quiz_Fifth
+        }
     }
 
     //видимость кнопок

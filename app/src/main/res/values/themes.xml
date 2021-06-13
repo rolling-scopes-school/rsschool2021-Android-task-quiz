@@ -26,12 +26,35 @@
     </style>
 
     <style name="Theme.Quiz.Three" parent="Theme.Quiz">
-        <item name="colorPrimary">#C8815997</item>
-        <item name="colorPrimaryDark">#C85C217C</item>
-        <item name="android:windowBackground">#C8CCC2D1</item>
-
+        <item name="colorPrimary">@android:color/holo_purple</item>
+        <item name="colorPrimaryDark">@color/design_default_color_primary</item>
+        <item name="colorPrimaryVariant">@color/ic_smile3_background</item>
+        <item name="colorSecondary">#D500F9</item>
+        <item name="colorSecondaryVariant">@color/yellow_100_light</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">#F3612E</item>
+        <item name="android:statusBarColor">#FF1744</item>
     </style>
+
+    <style name="Theme.Quiz.Fourth" parent="Theme.Quiz">
+        <item name="colorPrimary">#DA5656</item>
+        <item name="colorPrimaryDark">@color/design_default_color_primary</item>
+        <item name="colorPrimaryVariant">@color/ic_smile3_background</item>
+        <item name="colorSecondary">#FF1744</item>
+        <item name="colorSecondaryVariant">@color/yellow_100_light</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">#FF1744</item>
+    </style>
+
+    <style name="Theme.Quiz.Fifth" parent="Theme.Quiz">
+        <item name="colorPrimary">#61D7E4</item>
+        <item name="colorPrimaryDark">@color/design_default_color_primary</item>
+        <item name="colorPrimaryVariant">@color/ic_smile3_background</item>
+        <item name="colorSecondary">#00E5FF</item>
+        <item name="colorSecondaryVariant">@color/yellow_100_light</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">#FF1744</item>
+    </style>
+
+
 
 </resources>

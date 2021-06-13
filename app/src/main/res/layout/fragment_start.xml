@@ -12,7 +12,7 @@
         android:id="@+id/start_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#7AA670">
+        android:background="#3B426C">
 
         <Button
             android:id="@+id/button_start"
@@ -37,11 +37,13 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:src="@mipmap/ic_quest_foreground"
+            android:src="@mipmap/ic_start_foreground"
             app:layout_constraintBottom_toTopOf="@+id/button_start"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

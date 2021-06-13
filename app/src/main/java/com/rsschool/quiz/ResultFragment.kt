@@ -29,6 +29,7 @@ class ResultFragment : Fragment() {
         val args = ResultFragmentArgs.fromBundle(requireArguments())
         questions = args.questions.toMutableList()
 
+        addSmile()
         //Системная кнопка назад
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             view?.findNavController()
@@ -68,11 +69,11 @@ class ResultFragment : Fragment() {
         var count = 1
         val stringBuilder = StringBuilder("")
         return stringBuilder.apply {
-            append("Результат: ${rightAnswers()} из ${questions.size} \n\n")
+            append("Your result: ${rightAnswers()} из ${questions.size} \n\n")
             for (question in questions) {
                 append(
-                    "Вопрос ${count++}:\n ${question.question}\n" +
-                            "Ответ:\n ${question.answers?.get(question.answer)} \n\n"
+                    "${count++}) ${question.question}\n" +
+                            "Your answer: ${question.answers?.get(question.answer)} \n\n"
                 )
             }
         }.toString()
@@ -82,6 +83,27 @@ class ResultFragment : Fragment() {
 
     private fun rightAnswers(): Int {
         return questions.filter { it.rightAnswer == it.answers?.get(it.answer) }.size
+    }
+
+    private fun addSmile() {
+        var smile = 0
+        var background = 0
+        when ((rightAnswers() / ((questions.size).toDouble() / 100)).toInt()) {
+            100 -> {
+                smile = R.mipmap.ic_smile1
+                background = android.R.color.holo_green_dark
+            }
+            in 99 downTo 65 -> {
+                smile = R.mipmap.ic_smile2
+                background = android.R.color.holo_blue_light
+            }
+            else -> {
+                smile = R.mipmap.ic_smile3_foreground
+                background = android.R.color.holo_red_light
+            }
+        }
+        binding.imageViewResult.setImageResource(smile)
+        binding.frameLayoutResult.setBackgroundColor(background)
     }
 
 }

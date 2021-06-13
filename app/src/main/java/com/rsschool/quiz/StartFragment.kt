@@ -22,7 +22,7 @@ class StartFragment : Fragment() {
     ): View? {
         _binding = FragmentStartBinding.inflate(inflater, container, false)
 
-        val questions = arrayOf(
+        val questions = mutableListOf(
             Question(
                 question = "Какое расширение имеет файл Android приложения?",
                 answers = arrayListOf(".zip", ".jar", ".apk", ".exe", ""),
@@ -120,7 +120,7 @@ class StartFragment : Fragment() {
                 ),
                 rightAnswer = "Оба типа (Install-time & Runtime permissions)"
             )
-        )
+        ).shuffled().take(5).toTypedArray()
 
         //Системная кнопка назад
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
