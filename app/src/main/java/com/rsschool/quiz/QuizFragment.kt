@@ -21,13 +21,13 @@ class QuizFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentQuizBinding.inflate(inflater, container, false)
-
         val args = QuizFragmentArgs.fromBundle(requireArguments())
         questions = args.questions.toMutableList()
         questionNumber = args.questionNumber
+        requireContext().setTheme(setTheme())
 
-        context?.theme?.applyStyle(setTheme(), true)
+        _binding = FragmentQuizBinding.inflate(inflater, container, false)
+
         visibleButton()
         setQuestionFragment(questions[questionNumber].answer)
 
@@ -144,10 +144,10 @@ class QuizFragment : Fragment() {
     //выбор темы
     private fun setTheme(): Int {
         return when (questionNumber) {
-            0 -> R.style.Theme_Quiz_Second
-            2 -> R.style.Theme_Quiz_First
-            3 -> R.style.Theme_Quiz_Three
-            4 -> R.style.Theme_Quiz_Fourth
+            0 -> R.style.Theme_Quiz_First
+            1 -> R.style.Theme_Quiz_Second
+            2 -> R.style.Theme_Quiz_Three
+            3 -> R.style.Theme_Quiz_Fourth
             else -> R.style.Theme_Quiz_Fifth
         }
     }

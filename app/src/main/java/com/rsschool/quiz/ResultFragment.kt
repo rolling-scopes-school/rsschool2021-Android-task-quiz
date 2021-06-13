@@ -2,16 +2,13 @@ package com.rsschool.quiz
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
-import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.navigation.findNavController
-import androidx.navigation.navOptions
 import com.rsschool.quiz.databinding.FragmentResultBinding
 import java.lang.StringBuilder
 
@@ -86,24 +83,23 @@ class ResultFragment : Fragment() {
     }
 
     private fun addSmile() {
-        var smile = 0
-        var background = 0
-        when ((rightAnswers() / ((questions.size).toDouble() / 100)).toInt()) {
+//        val background: Int
+        val smile: Int = when ((rightAnswers() / ((questions.size).toDouble() / 100)).toInt()) {
             100 -> {
-                smile = R.mipmap.ic_smile1
-                background = android.R.color.holo_green_dark
+                R.mipmap.ic_smile1
+    //                background = android.R.color.holo_green_dark
             }
             in 99 downTo 65 -> {
-                smile = R.mipmap.ic_smile2
-                background = android.R.color.holo_blue_light
+                R.mipmap.ic_smile2
+    //                background = android.R.color.holo_blue_light
             }
             else -> {
-                smile = R.mipmap.ic_smile3_foreground
-                background = android.R.color.holo_red_light
+                R.mipmap.ic_smile3_foreground
+    //                background = android.R.color.holo_red_light
             }
         }
         binding.imageViewResult.setImageResource(smile)
-        binding.frameLayoutResult.setBackgroundColor(background)
+//        binding.frameLayoutResult.setBackgroundColor(background)
     }
 
 }
