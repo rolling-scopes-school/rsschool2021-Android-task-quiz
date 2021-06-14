@@ -1,7 +1,6 @@
 package com.rsschool.quiz
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -121,7 +120,7 @@ class QuizFragment : Fragment() {
         if (questionNumber != 0) {
             questionNumber--
             view?.findNavController()?.navigate(
-                QuizFragmentDirections.actionQuizFragmentSelf(
+                QuizFragmentDirections.actionQuizFragmentSelf2(
                     questions.toTypedArray(), questionNumber
                 )
             )
