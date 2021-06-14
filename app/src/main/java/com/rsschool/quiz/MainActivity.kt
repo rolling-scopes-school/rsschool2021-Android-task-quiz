@@ -1,26 +1,36 @@
 package com.rsschool.quiz
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.rsschool.quiz.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), FragmentQuiz.ActionPerformedListener {
+
 
     private lateinit var binding: ActivityMainBinding
+    override fun onActionPerformed(result: Array<Int>) {
+        openResult(result)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        openQuiz()
+        openQuiz(0)
     }
-    private fun openQuiz (){
-        val fragment : Fragment = FragmentQuiz()
+    private fun openQuiz (pageNumber: Int){         //start with 0
+        val fragment : Fragment = FragmentQuiz.newInstance(pageNumber)
         val transaction :FragmentTransaction = supportFragmentManager.beginTransaction()
-        transaction.add(binding.Container.id,fragment)
-        transaction.commit()
+        transaction.replace(binding.Container.id,fragment) .commit()
     }
+    private fun openResult(result : Array<Int>){
+        val result: Fragment = Result.newInstance(result)
+        val transaction: FragmentTransaction= supportFragmentManager.beginTransaction()
+        transaction.replace(binding.Container.id,result).commit()
+    }
+
+
 }
