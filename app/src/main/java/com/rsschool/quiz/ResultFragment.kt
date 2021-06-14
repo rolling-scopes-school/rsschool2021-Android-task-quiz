@@ -49,7 +49,9 @@ class ResultFragment : Fragment() {
 
             buttonShare.setOnClickListener {
                 val intent = Intent(Intent.ACTION_SEND)
-                intent.setType("text/plain").putExtra(Intent.EXTRA_TEXT, createMessage())
+                intent.setType("text/plain")
+                    .putExtra(Intent.EXTRA_SUBJECT,"Quiz results")
+                    .putExtra(Intent.EXTRA_TEXT, createMessage())
                 startActivity(intent)
             }
 

@@ -1,9 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <style name="Theme.Quiz" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorOnPrimary">@color/black</item>
         <item name="colorOnSecondary">@color/black</item>
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
     </style>
 
     <style name="Theme.Quiz.First" parent="Theme.Quiz">
@@ -17,13 +18,13 @@
     </style>
 
     <style name="Theme.Quiz.Second" parent="Theme.Quiz">
-        <item name="colorPrimary">@color/yellow_100</item>
-        <item name="colorPrimaryDark">@color/yellow_100_dark</item>
-        <item name="colorPrimaryVariant">@color/yellow_100_dark</item>
-        <item name="colorSecondary">@color/yellow_100</item>
-        <item name="colorSecondaryVariant">@color/yellow_100_light</item>
+        <item name="colorPrimary">#c0ca33</item>
+        <item name="colorPrimaryDark">#8c9900</item>
+        <item name="colorPrimaryVariant">#f5fd67</item>
+        <item name="colorSecondary">#9e9d24</item>
+        <item name="colorSecondaryVariant">#d2ce56</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/yellow_100_dark</item>
+        <item name="android:statusBarColor">#8c9900</item>
     </style>
 
     <style name="Theme.Quiz.Three" parent="Theme.Quiz">
@@ -37,13 +38,13 @@
     </style>
 
     <style name="Theme.Quiz.Fourth" parent="Theme.Quiz">
-        <item name="colorPrimary">#f9a825</item>
-        <item name="colorPrimaryDark">#c17900</item>
-        <item name="colorPrimaryVariant">#ffd95a</item>
-        <item name="colorSecondary">#f57f17</item>
-        <item name="colorSecondaryVariant">#ffb04c</item>
+        <item name="colorPrimary">#f4511e</item>
+        <item name="colorPrimaryDark">#b91400</item>
+        <item name="colorPrimaryVariant">#ff844c</item>
+        <item name="colorSecondary">#bf360c</item>
+        <item name="colorSecondaryVariant">#f9683a</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">#c17900</item>
+        <item name="android:statusBarColor">#b91400</item>
     </style>
 
     <style name="Theme.Quiz.Fifth" parent="Theme.Quiz">
