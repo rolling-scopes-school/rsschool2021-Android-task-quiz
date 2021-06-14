@@ -26,35 +26,33 @@
     </style>
 
     <style name="Theme.Quiz.Three" parent="Theme.Quiz">
-        <item name="colorPrimary">@android:color/holo_purple</item>
-        <item name="colorPrimaryDark">@color/design_default_color_primary</item>
-        <item name="colorPrimaryVariant">@color/ic_smile3_background</item>
-        <item name="colorSecondary">#D500F9</item>
-        <item name="colorSecondaryVariant">@color/yellow_100_light</item>
+        <item name="colorPrimary">#ba68c8</item>
+        <item name="colorPrimaryVariant">#ee98fb</item>
+        <item name="colorPrimaryDark">#883997</item>
+        <item name="colorSecondary">#691b99</item>
+        <item name="colorSecondaryVariant">#9b4dcb</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">#FF1744</item>
+        <item name="android:statusBarColor">#883997</item>
     </style>
 
     <style name="Theme.Quiz.Fourth" parent="Theme.Quiz">
-        <item name="colorPrimary">#DA5656</item>
-        <item name="colorPrimaryDark">@color/design_default_color_primary</item>
-        <item name="colorPrimaryVariant">@color/ic_smile3_background</item>
-        <item name="colorSecondary">#FF1744</item>
-        <item name="colorSecondaryVariant">@color/yellow_100_light</item>
+        <item name="colorPrimary">#f9a825</item>
+        <item name="colorPrimaryDark">#c17900</item>
+        <item name="colorPrimaryVariant">#ffd95a</item>
+        <item name="colorSecondary">#f57f17</item>
+        <item name="colorSecondaryVariant">#ffb04c</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">#FF1744</item>
+        <item name="android:statusBarColor">#c17900</item>
     </style>
 
     <style name="Theme.Quiz.Fifth" parent="Theme.Quiz">
-        <item name="colorPrimary">#61D7E4</item>
-        <item name="colorPrimaryDark">@color/design_default_color_primary</item>
-        <item name="colorPrimaryVariant">@color/ic_smile3_background</item>
-        <item name="colorSecondary">#00E5FF</item>
-        <item name="colorSecondaryVariant">@color/yellow_100_light</item>
+        <item name="colorPrimary">#e57373</item>
+        <item name="colorPrimaryVariant">#ffa4a2</item>
+        <item name="colorPrimaryDark">#af4448</item>
+        <item name="colorSecondary">#d32f2f</item>
+        <item name="colorSecondaryVariant">#ff6659</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">#FF1744</item>
+        <item name="android:statusBarColor">#af4448</item>
     </style>
-
-
 
 </resources>
