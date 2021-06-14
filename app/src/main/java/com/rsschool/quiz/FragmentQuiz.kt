@@ -10,6 +10,7 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.rsschool.quiz.databinding.FragmentQuizBinding
 
@@ -21,18 +22,19 @@ class FragmentQuiz : Fragment() {
     private var _binding: FragmentQuizBinding? = null
     private val binding get() = _binding!!
     private var listener: ActionPerformedListener? = null
-    private val question = ResRepo().getQuestions()
-    private var page : Int? = null
+    private var pageIndex = 0
+    private lateinit var question: List<Question>
     private lateinit var radioContent: ArrayList<RadioButton>
     private lateinit var radioGroup : RadioGroup
     private lateinit var txtQuestion : TextView
     private lateinit var toolbar: Toolbar
     private lateinit var btnNext: Button
     private lateinit var btnPrev: Button
+    private lateinit var answers: MutableMap<Int,Int>
     //todo NAVIGATION BUTTON??????
 
     interface ActionPerformedListener {
-        fun onActionPerformed (result: Array<Int>)
+        fun onActionPerformed (answers: Map<Int,Int>)
     }
 
     override fun onAttach(context: Context) {
@@ -52,50 +54,87 @@ class FragmentQuiz : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        radioGroup  = binding.radioGroup                 //bind views
-        txtQuestion = binding.question
-        toolbar     = binding.toolbar
-        btnNext     = binding.nextButton
-        btnPrev     = binding.previousButton
-        page = arguments?.getInt(ARG_PARAM1)  ?: 0      //get # of page (Question)
-
-        radioContent = ArrayList<RadioButton>()     //binding radioButtons
+        question = ResRepo().getQuestions()             //get List of Questions
+        answers = mutableMapOf()                        //init array for answers TODO may be better to use boolean??
+        //bind views
+        radioGroup  = binding.radioGroup                //radioGroup
+        txtQuestion = binding.question                  //txtView. Displaying Question
+        toolbar     = binding.toolbar                   //toolBar //TODO xz zachem poka..
+        btnNext     = binding.nextButton                //btnNext
+        btnPrev     = binding.previousButton            //btnPrev
+        // creating an array with views of RadioButtons in RadioGroup
+        radioContent = ArrayList()                      //binding radioButtons
         radioContent.add(binding.optionOne)
         radioContent.add(binding.optionTwo)
         radioContent.add(binding.optionThree)
         radioContent.add(binding.optionFour)
         radioContent.add(binding.optionFive)
 
-                                                        //todo Elvis?!?!?!?!
-        fillFragment(page!!,radioContent)                            //fill fragment with question and answers
-        btnNext.setOnClickListener { nextQuestion() }
-        btnPrev.setOnClickListener { previousQuestion() }
+        pageIndex = arguments?.getInt(ARG_PARAM1) ?: 0      //get number of page (Question) or 0
+                                                            //todo Elvis?!?!?!?!
+        drawFragment(pageIndex,radioContent)                //!!!draw Fragment
+        radioGroup.setOnCheckedChangeListener {             //radioGroup listener
+                group, checkedId -> btnNext.isEnabled = true }
+        btnNext.setOnClickListener {                        //btnNext listener
+            getAnswerAndDrop()
+            nextQuestion()
+        }
+        btnPrev.setOnClickListener { previousQuestion() }   //btnPrev listener
+    }
+
+    //method for drawing Fragment_quiz
+    private fun drawFragment(pageIndex: Int,radioContent: ArrayList<RadioButton>){
+        //TODO CHECK ALL THIS METHOD
+        //check answers for being answered
+        if(answers[pageIndex] != null) {
+            radioGroup.check(answers[pageIndex]!!)
+            btnNext.isEnabled = true                        //if answered enable "next"
+        } else btnNext.isEnabled = false                    //disable next before check radioGroup
+        btnPrev.isVisible = pageIndex != 0                  //visibility of the Previous Button
+
+        //if page = 5 rename button.
+        if(pageIndex == 4) btnNext.text = "SUBMIT"
+
+        fillQuestionAndAnswers(pageIndex,radioContent)      //Print question and answers
+    }
+    private fun getAnswerAndDrop (){                                //TODO Get Answer and drop radioGroup
+        when (radioGroup.checkedRadioButtonId){
+            binding.optionOne.id    -> answers[pageIndex] = binding.optionOne.id
+            binding.optionTwo.id    -> answers[pageIndex] = binding.optionTwo.id
+            binding.optionThree.id  -> answers[pageIndex] = binding.optionThree.id
+            binding.optionFour.id   -> answers[pageIndex] = binding.optionFour.id
+            binding.optionFive.id   -> answers[pageIndex] = binding.optionFive.id
+        }
+        radioGroup.clearCheck()
+    }
+    private fun nextQuestion(){                             //TODO check for null and 0
+       if(pageIndex == 4)
+           listener?.onActionPerformed(answers)
+           else drawFragment(++pageIndex,radioContent)
+    }
+    private fun previousQuestion(){                         //todo same
+        drawFragment(--pageIndex,radioContent)              //TODO why it is nullable?
+        previousAnswer(pageIndex)
+    }
+    private fun previousAnswer(pageIngex: Int){
+        radioGroup.check(answers[pageIndex]!!)
+    }
+    private fun fillQuestionAndAnswers(pageIndex: Int,radioContent: ArrayList<RadioButton>){
+        //fill they text with answers
+        for (index in radioContent.indices){
+            radioContent[index].text =
+                question[pageIndex].answers[index]
+        }
+        //Print text of question
+        txtQuestion.text = question[pageIndex].question
+        //toolbarText
+        if(pageIndex >= 0 || pageIndex < 5)
+        toolbar.title = "Question ${pageIndex+1}"           //Plus 1 because of pageIndex starts with '0'
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-    //method for filling Fragment_quiz with information
-    private fun fillFragment(_Question: Int,radioContent: ArrayList<RadioButton>){
-        // creating an array with views of RadioButtons in RadioGroup
-
-        //TODO CHECK ALL THIS METHOD
-        //fill they text with answers
-        for (i in radioContent.indices){
-            radioContent[i].text = question[_Question].answers[i]
-        }
-        //Print text of question
-        txtQuestion.text = question[_Question].question
-        //toolbarText
-        toolbar.title = "Question ${_Question+1}"
-    }
-    private fun nextQuestion(){                             //TODO check for null and 0
-        fillFragment(page!!.inc(),radioContent)
-    }
-    private fun previousQuestion(){                         //todo same
-        fillFragment(page!!.dec(),radioContent)
     }
 
     companion object {

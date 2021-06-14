@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity(), FragmentQuiz.ActionPerformedListener {
 
 
     private lateinit var binding: ActivityMainBinding
-    override fun onActionPerformed(result: Array<Int>) {
+    override fun onActionPerformed(result: Map<Int,Int>) {
         openResult(result)
     }
 
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity(), FragmentQuiz.ActionPerformedListener {
         val transaction :FragmentTransaction = supportFragmentManager.beginTransaction()
         transaction.replace(binding.Container.id,fragment) .commit()
     }
-    private fun openResult(result : Array<Int>){
+    private fun openResult(result : Map<Int,Int>){
         val result: Fragment = Result.newInstance(result)
         val transaction: FragmentTransaction= supportFragmentManager.beginTransaction()
         transaction.replace(binding.Container.id,result).commit()
