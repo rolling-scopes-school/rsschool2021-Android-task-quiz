@@ -1,5 +1,6 @@
 package com.rsschool.quiz
 
+import android.app.ActionBar
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import com.google.android.material.navigation.NavigationView
 import com.rsschool.quiz.databinding.FragmentQuizBinding
 
 private const val ARG_PARAM1 = "param1"
@@ -31,8 +33,8 @@ class FragmentQuiz : Fragment() {
     private lateinit var btnNext: Button
     private lateinit var btnPrev: Button
     private lateinit var answers: MutableMap<Int,Int>
-    //todo NAVIGATION BUTTON??????
-
+    private val outViews: ArrayList<View> = arrayListOf<View>()    //array for view of toolbar with describing
+    //!!!!!!!!!!!!!!!!
     interface ActionPerformedListener {
         fun onActionPerformed (answers: Map<Int,Int>)
     }
@@ -56,10 +58,10 @@ class FragmentQuiz : Fragment() {
 
         question = ResRepo().getQuestions()             //get List of Questions
         answers = mutableMapOf()                        //init array for answers TODO may be better to use boolean??
-        //bind views
+        //bind views TODO Delete unneedable values and use binding.View
         radioGroup  = binding.radioGroup                //radioGroup
         txtQuestion = binding.question                  //txtView. Displaying Question
-        toolbar     = binding.toolbar                   //toolBar //TODO xz zachem poka..
+        toolbar     = binding.toolbar                   //toolBar
         btnNext     = binding.nextButton                //btnNext
         btnPrev     = binding.previousButton            //btnPrev
         // creating an array with views of RadioButtons in RadioGroup
@@ -69,32 +71,32 @@ class FragmentQuiz : Fragment() {
         radioContent.add(binding.optionThree)
         radioContent.add(binding.optionFour)
         radioContent.add(binding.optionFive)
-
+                                                            //TODO Elvis needed??
         pageIndex = arguments?.getInt(ARG_PARAM1) ?: 0      //get number of page (Question) or 0
-                                                            //todo Elvis?!?!?!?!
+
+        toolbar.findViewsWithText(
+            outViews,"Back to the previous question",
+            View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION)       //Find back Button and send to the arrayList
+
         drawFragment(pageIndex,radioContent)                //!!!draw Fragment
+
         radioGroup.setOnCheckedChangeListener {             //radioGroup listener
                 group, checkedId -> btnNext.isEnabled = true }
         btnNext.setOnClickListener {                        //btnNext listener
             getAnswerAndDrop()
             nextQuestion()
         }
+        //TODO SAVE RASIOGROPU CHECK BEFORE PUSH "NEXT" to able to see your potential answer when "btnPrev -> btnNext"
         btnPrev.setOnClickListener { previousQuestion() }   //btnPrev listener
-    }
 
+        toolbar.setNavigationOnClickListener {              //Navigation listener
+            previousQuestion()
+        }
+    }
+    //TODO CHECK FOR NEED PAGEINDEX IN METHODS PARAMS
     //method for drawing Fragment_quiz
     private fun drawFragment(pageIndex: Int,radioContent: ArrayList<RadioButton>){
-        //TODO CHECK ALL THIS METHOD
-        //check answers for being answered
-        if(answers[pageIndex] != null) {
-            radioGroup.check(answers[pageIndex]!!)
-            btnNext.isEnabled = true                        //if answered enable "next"
-        } else btnNext.isEnabled = false                    //disable next before check radioGroup
-        btnPrev.isVisible = pageIndex != 0                  //visibility of the Previous Button
-
-        //if page = 5 rename button.
-        if(pageIndex == 4) btnNext.text = "SUBMIT"
-
+        buttonsDraw(pageIndex)                              //Visible/Invisible Buttons and Text of btnNext
         fillQuestionAndAnswers(pageIndex,radioContent)      //Print question and answers
     }
     private fun getAnswerAndDrop (){                                //TODO Get Answer and drop radioGroup
@@ -116,8 +118,28 @@ class FragmentQuiz : Fragment() {
         drawFragment(--pageIndex,radioContent)              //TODO why it is nullable?
         previousAnswer(pageIndex)
     }
-    private fun previousAnswer(pageIngex: Int){
+    private fun previousAnswer(pageIndex: Int){
         radioGroup.check(answers[pageIndex]!!)
+    }
+    private fun buttonsDraw (pageIndex: Int){
+        //check answers for being answered
+        if(answers[pageIndex] != null) {
+            radioGroup.check(answers[pageIndex]!!)
+            btnNext.isEnabled = true                        //if answered enable "next"
+        } else btnNext.isEnabled = false                    //disable next before check radioGroup
+
+        if(pageIndex==0) {
+            btnPrev.isVisible = false                       //visibility of the Previous Button
+            outViews[0].visibility = View.INVISIBLE         //visibility of the toolbarPrev Button
+        }
+        else {
+            btnPrev.isVisible = true
+            outViews[0].visibility = View.VISIBLE
+        }
+
+        //if page = 5 rename button.
+        if(pageIndex == 4) btnNext.text = getString(R.string.submit)
+        else btnNext.text = getString(R.string.next)
     }
     private fun fillQuestionAndAnswers(pageIndex: Int,radioContent: ArrayList<RadioButton>){
         //fill they text with answers
