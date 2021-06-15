@@ -17,4 +17,11 @@
     <color name="deep_purple_100">#d1c4e9</color>
     <color name="deep_purple_100_light">#fff7ff</color>
     <color name="deep_purple_100_dark">#a094b7</color>
+    <color name="question_background">#EFF2F3</color>
+    <color name="quiz_first_statusBarColor">@color/deep_orange_100_dark</color>
+    <color name="quiz_second_statusBarColor">#8c9900</color>
+    <color name="quiz_three_statusBarColor">#883997</color>
+    <color name="quiz_fourth_statusBarColor">#b91400</color>
+    <color name="quiz_fifth_statusBarColor">#af4448</color>
+
 </resources>

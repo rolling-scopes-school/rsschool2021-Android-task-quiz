@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.rsschool.quiz.databinding.FragmentQuizBinding
@@ -23,8 +24,7 @@ class QuizFragment : Fragment() {
         val args = QuizFragmentArgs.fromBundle(requireArguments())
         questions = args.questions.toMutableList()
         questionNumber = args.questionNumber
-        requireContext().setTheme(setTheme())
-
+        setTheme()
         _binding = FragmentQuizBinding.inflate(inflater, container, false)
 
         visibleButton()
@@ -141,14 +141,33 @@ class QuizFragment : Fragment() {
     }
 
     //выбор темы
-    private fun setTheme(): Int {
-        return when (questionNumber) {
-            0 -> R.style.Theme_Quiz_First
-            1 -> R.style.Theme_Quiz_Second
-            2 -> R.style.Theme_Quiz_Three
-            3 -> R.style.Theme_Quiz_Fourth
-            else -> R.style.Theme_Quiz_Fifth
+    private fun setTheme() {
+        val theme: Int
+        val color: Int
+        when (questionNumber) {
+            0 -> {
+                theme = R.style.Theme_Quiz_First
+                color = R.color.quiz_first_statusBarColor
+            }
+            1 ->{
+                theme = R.style.Theme_Quiz_Second
+                color = R.color.quiz_second_statusBarColor
+            }
+            2 -> {
+                theme = R.style.Theme_Quiz_Three
+                color = R.color.quiz_three_statusBarColor
+            }
+            3 -> {
+                theme = R.style.Theme_Quiz_Fourth
+                color = R.color.quiz_fourth_statusBarColor
+            }
+            else -> {
+                theme = R.style.Theme_Quiz_Fifth
+                color = R.color.quiz_fifth_statusBarColor
+            }
         }
+        requireContext().setTheme(theme)
+        requireActivity().window.statusBarColor = ContextCompat.getColor(requireActivity(), color)
     }
 
     //видимость кнопок
