@@ -26,7 +26,6 @@ class QuizFragment : Fragment() {
         questionNumber = args.questionNumber
         setTheme()
         _binding = FragmentQuizBinding.inflate(inflater, container, false)
-
         visibleButton()
         setQuestionFragment(questions[questionNumber].answer)
 
@@ -55,7 +54,15 @@ class QuizFragment : Fragment() {
             }
 
             //Если выбран вариант ответа в RadioGroup
-            radioGroup.setOnCheckedChangeListener { _, _ ->
+            radioGroup.setOnCheckedChangeListener { _, id ->
+                questions[questionNumber].answer = when (id) {
+                    R.id.option_one -> 0
+                    R.id.option_two -> 1
+                    R.id.option_three -> 2
+                    R.id.option_four -> 3
+                    R.id.option_five -> 4
+                    else -> -1
+                }
                 binding.nextButton.visibility = View.VISIBLE
             }
 
@@ -67,14 +74,12 @@ class QuizFragment : Fragment() {
             // Кнопка next
             nextButton.setOnClickListener {
                 if (questionNumber == questions.size - 1) {
-                    addAnswer()
                     view?.findNavController()?.navigate(
                         QuizFragmentDirections.actionQuizFragmentToResultFragment(
                             questions.toTypedArray()
                         )
                     )
                 } else {
-                    addAnswer()
                     questionNumber++
                     view?.findNavController()?.navigate(
                         QuizFragmentDirections.actionQuizFragmentSelf(
@@ -125,19 +130,6 @@ class QuizFragment : Fragment() {
                 )
             )
         }
-    }
-
-    //добавление варианта ответа
-    private fun addAnswer() {
-        questions[questionNumber].answer = when (binding.radioGroup.checkedRadioButtonId) {
-            R.id.option_one -> 0
-            R.id.option_two -> 1
-            R.id.option_three -> 2
-            R.id.option_four -> 3
-            R.id.option_five -> 4
-            else -> -1
-        }
-
     }
 
     //выбор темы
