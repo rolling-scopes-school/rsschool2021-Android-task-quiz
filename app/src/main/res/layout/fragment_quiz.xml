@@ -18,7 +18,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/actionBarSize"
             android:fitsSystemWindows="true"
             app:menu="@menu/options_menu"
             app:navigationContentDescription="Back to the previous question"
@@ -31,7 +31,7 @@
         android:id="@+id/scroll"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#EFF2F3"
+        android:background="@color/question_background"
         app:layout_constraintBottom_toTopOf="@id/previous_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
