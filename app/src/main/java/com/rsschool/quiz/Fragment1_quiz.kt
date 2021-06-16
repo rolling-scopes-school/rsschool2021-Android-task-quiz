@@ -3,6 +3,7 @@ package com.rsschool.quiz
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,22 +14,22 @@ import com.rsschool.quiz.databinding.Fragment1QuizBinding
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-
+//TODO TRY ON API =16!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 class Fragment1_quiz : Fragment() {
 
     private var _binding: Fragment1QuizBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = requireNotNull (_binding)
     private var listener: ActionPerformedListener? = null
     private var previousAnswer: Int? = null
     private var questionNumber: Int? = null
     private lateinit var questionList: List<Question>
     private lateinit var radioContent: ArrayList<RadioButton>
     private var answer: Int? =null
-    private val outViews: ArrayList<View> = arrayListOf<View>()    //array for view of toolbar with describing
+    private val outViews: ArrayList<View> = arrayListOf()    //array for view of toolbar with describing
 
     interface ActionPerformedListener {
         fun nextQuestion (answer: Int, correct: Boolean)
-        fun previousQuestion (questionNumber: Int, previousAnswer: Int)
+        fun previousQuestion (previousAnswer: Int)
     }
 
     override fun onAttach(context: Context) {
@@ -48,9 +49,16 @@ class Fragment1_quiz : Fragment() {
             questionNumber = it.getInt(ARG_PARAM2)
         }
         Log.d("myLogs","$previousAnswer , $questionNumber")
-        /*previousAnswer = arguments?.getInt(ARG_PARAM1)       //get previous answer
-        questionNumber = arguments?.getInt(ARG_PARAM2) ?: 0      //get number of page (Question) or 0*/
-        _binding = Fragment1QuizBinding.inflate(inflater,container,false)
+        lateinit var contextThemeWrapper: ContextThemeWrapper
+        when (questionNumber){
+            0 -> contextThemeWrapper = ContextThemeWrapper(activity,R.style.Theme_Quiz_First)
+            1 -> contextThemeWrapper = ContextThemeWrapper(activity,R.style.Theme_Quiz_Second)
+            2 -> contextThemeWrapper = ContextThemeWrapper(activity,R.style.Theme_Quiz_Third)
+            3 -> contextThemeWrapper = ContextThemeWrapper(activity,R.style.Theme_Quiz_Fourth)
+            4 -> contextThemeWrapper = ContextThemeWrapper(activity,R.style.Theme_Quiz_Fifth)
+        }
+        val localInflater = inflater.cloneInContext(contextThemeWrapper)
+        _binding = Fragment1QuizBinding.inflate(localInflater,container,false)
         return binding.root
     }
 
@@ -86,14 +94,14 @@ class Fragment1_quiz : Fragment() {
                 else listener?.nextQuestion(answer!!, false)
             }
             previousButton.setOnClickListener {
-                listener?.previousQuestion(previousAnswer!!,previousAnswer!!)
+                listener?.previousQuestion(previousAnswer!!)
 
                 //previousQuestion() TODO If pageIndex ==0 ....
             }   //btnPrev listener
 
             toolbar.setNavigationOnClickListener {              //Navigation listener
                 //previousQuestion() TODO If pageIndex ==0 ....
-                listener?.previousQuestion(previousAnswer!!,previousAnswer!!)
+                listener?.previousQuestion(previousAnswer!!)
             }
 
         }

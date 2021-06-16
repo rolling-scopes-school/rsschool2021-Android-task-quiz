@@ -17,7 +17,13 @@
     <color name="deep_purple_100">#d1c4e9</color>
     <color name="deep_purple_100_light">#fff7ff</color>
     <color name="deep_purple_100_dark">#a094b7</color>
-    <color name="blue">#0277bd</color>
-    <color name="blue_light">#004c8c</color>
-    <color name="blue_dark">#58a5f0</color>
+    <color name="blue_primary">#0277bd</color>
+    <color name="blue_light_secondary">#004c8c</color>
+    <color name="blue_primary_dark">#58a5f0</color>
+    <color name="red_primary">#b71c1c</color>
+    <color name="red_light_secondary">#f05545</color>
+    <color name="red_primary_dark">#7f0000</color>
+    <color name="grey_primary">#616161</color>
+    <color name="grey_light_secondary">#8e8e8e</color>
+    <color name="grey_primary_dark">#373737</color>
 </resources>
