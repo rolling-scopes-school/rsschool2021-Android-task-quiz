@@ -59,7 +59,7 @@ class Result : Fragment() {
 
         // TODO: Rename and change types and number of parameters !~!!!!!!!!!!!!!!!!!
         @JvmStatic
-        fun newInstance(param1: Map<Int,Int>) :Fragment {
+        fun newInstance() :Fragment {
             Result().apply {
                 arguments = Bundle().apply {
                     //todo array to params
