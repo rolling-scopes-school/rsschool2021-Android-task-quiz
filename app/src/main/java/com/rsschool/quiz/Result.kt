@@ -20,7 +20,7 @@ private const val ARG_PARAM2 = "param2"
 class Result : Fragment() {
     private var listener: ActionPerformedListener? = null
     private var _binding: FragmentResultBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = requireNotNull(_binding)
 
     interface ActionPerformedListener {
         fun onActionPerformed ()
@@ -42,8 +42,8 @@ class Result : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_result, container, false)
+        _binding = FragmentResultBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
     companion object {
@@ -59,16 +59,14 @@ class Result : Fragment() {
 
         // TODO: Rename and change types and number of parameters !~!!!!!!!!!!!!!!!!!
         @JvmStatic
-        fun newInstance() :Fragment {
-            Result().apply {
+        fun newInstance(): Fragment {
+            return Result().apply {
                 arguments = Bundle().apply {
                     //todo array to params
                     //putString(ARG_PARAM1, param1)
                     //putString(ARG_PARAM2, param2)
                 }
             }
-            val fragment = Result()
-            return fragment
         }
     }
 }

@@ -8,6 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
+import android.widget.RadioGroup
+import androidx.core.view.forEach
+import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.rsschool.quiz.databinding.Fragment1QuizBinding
@@ -20,16 +23,16 @@ class Fragment1_quiz : Fragment() {
     private var _binding: Fragment1QuizBinding? = null
     private val binding get() = requireNotNull (_binding)
     private var listener: ActionPerformedListener? = null
-    private var previousAnswer: Int? = null
-    private var questionNumber: Int? = null
+    private var answer: Int = -1
+    private var previousAnswer: Int = -1
+    private var questionNumber: Int = -1
     private lateinit var questionList: List<Question>
     private lateinit var radioContent: ArrayList<RadioButton>
-    private var answer: Int? =null
-    private val outViews: ArrayList<View> = arrayListOf()    //array for view of toolbar with describing
+    private lateinit var outViews: ArrayList<View>    //array for view of toolbar with describing
 
     interface ActionPerformedListener {
         fun nextQuestion (answer: Int, correct: Boolean)
-        fun previousQuestion (previousAnswer: Int)
+        fun previousQuestion ()
     }
 
     override fun onAttach(context: Context) {
@@ -42,20 +45,17 @@ class Fragment1_quiz : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //TODO Elvis needed??
         arguments?.let{
-            Log.d("myLogs","inter here ${it.getInt(ARG_PARAM2)}")
             previousAnswer = it.getInt(ARG_PARAM1)
             questionNumber = it.getInt(ARG_PARAM2)
         }
-        Log.d("myLogs","$previousAnswer , $questionNumber")
-        lateinit var contextThemeWrapper: ContextThemeWrapper
-        when (questionNumber){
-            0 -> contextThemeWrapper = ContextThemeWrapper(activity,R.style.Theme_Quiz_First)
-            1 -> contextThemeWrapper = ContextThemeWrapper(activity,R.style.Theme_Quiz_Second)
-            2 -> contextThemeWrapper = ContextThemeWrapper(activity,R.style.Theme_Quiz_Third)
-            3 -> contextThemeWrapper = ContextThemeWrapper(activity,R.style.Theme_Quiz_Fourth)
-            4 -> contextThemeWrapper = ContextThemeWrapper(activity,R.style.Theme_Quiz_Fifth)
+        val contextThemeWrapper: ContextThemeWrapper = when (questionNumber){
+            0       -> ContextThemeWrapper(activity,R.style.Theme_Quiz_First)
+            1       -> ContextThemeWrapper(activity,R.style.Theme_Quiz_Second)
+            2       -> ContextThemeWrapper(activity,R.style.Theme_Quiz_Third)
+            3       -> ContextThemeWrapper(activity,R.style.Theme_Quiz_Fourth)
+            4       -> ContextThemeWrapper(activity,R.style.Theme_Quiz_Fifth)
+            else    -> ContextThemeWrapper(activity,R.style.Theme_Quiz)
         }
         val localInflater = inflater.cloneInContext(contextThemeWrapper)
         _binding = Fragment1QuizBinding.inflate(localInflater,container,false)
@@ -64,8 +64,8 @@ class Fragment1_quiz : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        questionList = ResRepo().getQuestions()             //get List of Questions
+        outViews        = arrayListOf()
+        questionList    = ResRepo().getQuestions()             //get List of Questions
 
         // creating an array with views of RadioButtons in RadioGroup
         with (binding){
@@ -80,32 +80,29 @@ class Fragment1_quiz : Fragment() {
                 outViews,"Back to the previous question",   //TODO KOSTIL'
                 View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION)       //Find back Button and send to the arrayList
 
-            drawFragment(questionNumber!!,radioContent)                //!!!draw Fragment
-
             radioGroup.setOnCheckedChangeListener {             //radioGroup listener
                     group, checkedId ->
                 answer = group.indexOfChild(group.findViewById(checkedId))
                 nextButton.isEnabled = true
+                //TODO REMEMBERING NOT SUBMITTED
             }
-            //TODO GO ON from HERE
+           
             nextButton.setOnClickListener {                        //btnNext listener
-                if(answer == questionList[questionNumber!!].correct)
-                listener?.nextQuestion(answer!!, true)
-                else listener?.nextQuestion(answer!!, false)
+                if(answer == questionList[questionNumber].correct )
+                    listener?.nextQuestion(answer, true)
+                else listener?.nextQuestion(answer, false)
             }
             previousButton.setOnClickListener {
-                listener?.previousQuestion(previousAnswer!!)
-
-                //previousQuestion() TODO If pageIndex ==0 ....
+                listener?.previousQuestion()
             }   //btnPrev listener
 
             toolbar.setNavigationOnClickListener {              //Navigation listener
                 //previousQuestion() TODO If pageIndex ==0 ....
-                listener?.previousQuestion(previousAnswer!!)
+                listener?.previousQuestion()
             }
 
         }
-
+        drawFragment(questionNumber,radioContent)                //!!!draw Fragment
 
     }
     //TODO CHECK FOR NEED PAGEINDEX IN METHODS PARAMS
@@ -117,14 +114,11 @@ class Fragment1_quiz : Fragment() {
 
     private fun buttonsDraw (questionNumber: Int){
         //check answers for being answered
-        if(previousAnswer != null) {
-            binding.radioGroup.check(previousAnswer!!)                  //TODO NULLL
-            binding.nextButton.isEnabled = true                        //if answered enable "next"
-        } else binding.nextButton.isEnabled = false                    //disable next before check radioGroup
+        binding.nextButton.isEnabled = isChecked(radioContent)     //disable next before check radioGroup
 
         if(questionNumber == 0) {
-            binding.previousButton.isVisible = false                       //visibility of the Previous Button
-            outViews[0].visibility = View.INVISIBLE         //visibility of the toolbarPrev Button
+            binding.previousButton.isVisible = false               //visibility of the Previous Button
+            outViews[0].visibility = View.INVISIBLE                //visibility of the toolbarPrev Button
         }
         else {
             binding.previousButton.isVisible = true
@@ -135,6 +129,10 @@ class Fragment1_quiz : Fragment() {
         if(questionNumber == 4) binding.nextButton.text = getString(R.string.submit)
         else binding.nextButton.text = getString(R.string.next)
     }
+    private fun isChecked(content: ArrayList<RadioButton>): Boolean{
+        content.forEach { if(it.isChecked) return true }
+        return false
+    }
     private fun fillQuestionAndAnswers(questionNumber: Int,radioContent: ArrayList<RadioButton>){
         //fill they text with answers
         for (index in radioContent.indices){
@@ -144,8 +142,10 @@ class Fragment1_quiz : Fragment() {
         //Print text of question
         binding.question.text = questionList[questionNumber].question
         //toolbarText
-        if(questionNumber >= 0 || questionNumber < 5)
+        if(questionNumber >= 0 || questionNumber < 4)
             binding.toolbar.title = "Question ${questionNumber+1}"           //Plus 1 because of pageIndex starts with '0'
+        if(previousAnswer != -1)
+            (binding.radioGroup[previousAnswer] as RadioButton).isChecked = true
     }
 
     override fun onDestroy() {
@@ -156,16 +156,12 @@ class Fragment1_quiz : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(param1: Int?,param2: Int) :Fragment1_quiz {
-            val fragment = Fragment1_quiz()                   //great fragment
-            val args = Bundle()                             //args for parameters
-            if(param1 != null) {
-                args.putInt(ARG_PARAM1, param1)
-            }                 //put parameters
-            args.putInt(ARG_PARAM2, param2)
-            fragment.arguments = args
-            Log.d("myLogs","$param1, $param2 bundle param2 ${args.getInt(ARG_PARAM2)}")
-            return fragment                                 //return fragment into Main
+            return Fragment1_quiz().apply {
+                arguments = Bundle().apply {
+                    putInt(ARG_PARAM1, param1 ?: -1)
+                    putInt(ARG_PARAM2, param2)
+                }
+            }
         }
     }
-
 }
