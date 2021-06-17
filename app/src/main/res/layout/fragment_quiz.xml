@@ -76,43 +76,65 @@
                 app:layout_constraintTop_toTopOf="@id/margin_top_guideline"
                 tools:text="Est-ce qu'il travaille a Paris?" />
 
+<!--            android:divider="?android:attr/dividerHorizontal"-->
+<!--            android:showDividers="beginning|middle|end"-->
             <RadioGroup
                 android:id="@+id/radio_group"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+
                 app:layout_constraintEnd_toEndOf="@id/margin_end_guideline"
                 app:layout_constraintStart_toStartOf="@id/margin_start_guideline"
                 app:layout_constraintTop_toBottomOf="@id/question">
 
                 <RadioButton
                     android:id="@+id/option_one"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/radio_button_margin"
+                    android:padding="@dimen/radio_button_text_padding"
+                    android:background="@drawable/radio_flat_selector"
+                    android:button="@android:color/transparent"
                     tools:text="Option 1" />
 
                 <RadioButton
                     android:id="@+id/option_two"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/radio_button_margin"
+                    android:padding="@dimen/radio_button_text_padding"
+                    android:background="@drawable/radio_flat_selector"
+                    android:button="@android:color/transparent"
                     tools:text="Option 2" />
 
                 <RadioButton
                     android:id="@+id/option_three"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/radio_button_margin"
+                    android:padding="@dimen/radio_button_text_padding"
+                    android:background="@drawable/radio_flat_selector"
+                    android:button="@android:color/transparent"
                     tools:text="Option 3" />
 
                 <RadioButton
                     android:id="@+id/option_four"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/radio_button_margin"
+                    android:padding="@dimen/radio_button_text_padding"
+                    android:background="@drawable/radio_flat_selector"
+                    android:button="@android:color/transparent"
                     tools:checked="true"
                     tools:text="Option 4" />
 
                 <RadioButton
                     android:id="@+id/option_five"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="@dimen/radio_button_text_padding"
+                    android:background="@drawable/radio_flat_selector"
+                    android:button="@android:color/transparent"
                     tools:text="Option 5" />
 
             </RadioGroup>
@@ -124,7 +146,7 @@
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Previous"
+        android:text="@string/bt_text_previous"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -133,7 +155,7 @@
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Next"
+        android:text="@string/bt_text_next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

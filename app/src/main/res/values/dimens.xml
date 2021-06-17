@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="radio_button_radius">4dp</dimen>
+    <dimen name="radio_button_margin">2dp</dimen>
+    <dimen name="radio_button_text_padding">4dp</dimen>
+</resources>

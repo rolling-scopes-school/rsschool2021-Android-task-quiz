@@ -11,6 +11,7 @@
         <item name="colorPrimaryVariant">@color/deep_orange_100_dark</item>
         <item name="colorSecondary">@color/deep_orange_100</item>
         <item name="colorSecondaryVariant">@color/deep_orange_100_light</item>
+        <item name="colorAccent">@color/deep_orange_100</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/deep_orange_100_dark</item>
     </style>
@@ -21,6 +22,7 @@
         <item name="colorPrimaryVariant">@color/yellow_100_dark</item>
         <item name="colorSecondary">@color/yellow_100</item>
         <item name="colorSecondaryVariant">@color/yellow_100_light</item>
+        <item name="colorAccent">@color/yellow_100</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/yellow_100_dark</item>
     </style>

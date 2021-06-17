@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Quiz</string>
+    <string name="bt_text_previous">Previous</string>
+    <string name="bt_text_next">Next</string>
+    <string name="result_button_share">share</string>
+    <string name="result_button_back">back</string>
+    <string name="result_button_quit">quit</string>
 </resources>
