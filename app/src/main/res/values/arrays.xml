@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="answersOne">
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>5</item>
+        <item>9</item>
+    </string-array>
+    <string-array name="answersTwo">
+        <item>400000</item>
+        <item>384400</item>
+        <item>256000</item>
+        <item>278000</item>
+        <item>124600</item>
+    </string-array>
+    <string-array name="answersThree">
+        <item>Гагарин</item>
+        <item>Момарин</item>
+        <item>Пушкин</item>
+        <item>Флюшкин</item>
+        <item>Ильюшин</item>
+    </string-array>
+    <string-array name="answersFour">
+        <item>15 апреля</item>
+        <item>16 февраля</item>
+        <item>9 февраля</item>
+        <item>20 мая</item>
+        <item>12 апреля</item>
+    </string-array>
+    <string-array name="answersFive">
+        <item>Восток</item>
+        <item>Росток</item>
+        <item>Ромашка</item>
+        <item>Победа</item>
+        <item>Закат</item>
+    </string-array>
+    <string-array name="answersRight">
+        <item>8</item>
+        <item>384400</item>
+        <item>Гагарин</item>
+        <item>12 апреля</item>
+        <item>Восток</item>
+    </string-array>
+</resources>

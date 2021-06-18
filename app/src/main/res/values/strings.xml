@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Quiz</string>
+    <string name="questionOne">Сколько планет в солнечной системе?</string>
+    <string name="questionTwo">Сколько км от Земли до Луны?</string>
+    <string name="questionThree">Кто первым полетел в космос?</string>
+    <string name="questionFour">Когда отмечается день космонавтики?</string>
+    <string name="questionFive">Как назывался космический корабль Гагарина?</string>
+    <string name="your_result">Твой результат:</string>
 </resources>

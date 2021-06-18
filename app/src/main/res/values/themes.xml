@@ -24,4 +24,34 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/yellow_100_dark</item>
     </style>
+
+    <style name="Theme.Quiz.Third" parent="Theme.Quiz">
+        <item name="colorPrimary">@color/cyan_100</item>
+        <item name="colorPrimaryDark">@color/cyan_100_dark</item>
+        <item name="colorPrimaryVariant">@color/cyan_100_dark</item>
+        <item name="colorSecondary">@color/cyan_100</item>
+        <item name="colorSecondaryVariant">@color/cyan_100_light</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/cyan_100_dark</item>
+    </style>
+
+    <style name="Theme.Quiz.Fourth" parent="Theme.Quiz">
+        <item name="colorPrimary">@color/deep_purple_100</item>
+        <item name="colorPrimaryDark">@color/deep_purple_100_dark</item>
+        <item name="colorPrimaryVariant">@color/deep_purple_100_dark</item>
+        <item name="colorSecondary">@color/deep_purple_100</item>
+        <item name="colorSecondaryVariant">@color/deep_purple_100_light</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/deep_purple_100_dark</item>
+    </style>
+
+    <style name="Theme.Quiz.Fifth" parent="Theme.Quiz">
+        <item name="colorPrimary">@color/light_green_100</item>
+        <item name="colorPrimaryDark">@color/light_green_100_dark</item>
+        <item name="colorPrimaryVariant">@color/light_green_100_dark</item>
+        <item name="colorSecondary">@color/light_green_100</item>
+        <item name="colorSecondaryVariant">@color/light_green_100_light</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/light_green_100_dark</item>
+    </style>
 </resources>
