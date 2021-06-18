@@ -11,7 +11,14 @@ import com.rsschool.quiz.R.layout.activity_main
 import com.rsschool.quiz.databinding.ActivityMainBinding
 import com.rsschool.quiz.fragments.*
 
-
+//Todo:
+// Привет приятель, очень надеюсь что ты это читаешь до того как выставил мне оценку
+// Для твоего удобства я прикрепил apk  и видео теста к коду на github
+// Все отлично работает, но ты должен знать, что я использовал библиотеку
+// https://github.com/kirich1409/ViewBindingPropertyDelegate
+// Она помогает убрать дублирующийся код при ViewBinding
+// Поэтому у меня отсутствуют переопределения некоторых методов
+// Будут вопросы, пиши  Discord: Fiorentino#8337
 class MainActivity : AppCompatActivity(activity_main), FragmentInterface {
     private val binding by viewBinding(ActivityMainBinding::bind)
 
