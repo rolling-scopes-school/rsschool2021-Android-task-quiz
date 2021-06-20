@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import com.rsschool.quiz.data.QuizGame
 import com.rsschool.quiz.databinding.FragmentQuizBinding
 
 class QuizFragment : Fragment() {
@@ -38,11 +41,39 @@ class QuizFragment : Fragment() {
             listener?.showPrevious()
         }
 
-        //setQuestionOnFragment()
+        setQuestionOnFragment()
     }
 
     private fun setQuestionOnFragment() {
-        TODO("Not yet implemented")
+        val currentQuestion = QuizGame.questionsList[question]
+
+        binding.question.text = currentQuestion.question
+        binding.optionOne.text = currentQuestion.answers[0]
+        binding.optionTwo.text = currentQuestion.answers[1]
+        binding.optionThree.text = currentQuestion.answers[2]
+        binding.optionFour.text = currentQuestion.answers[3]
+        binding.optionFive.text = currentQuestion.answers[4]
+
+        binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            currentQuestion.userChoice = (binding.radioGroup.findViewById(checkedId) as RadioButton)?.text.toString()
+            Toast.makeText(requireContext(), currentQuestion.userChoice, Toast.LENGTH_SHORT).show()
+            binding.nextButton.isEnabled = true
+        }
+
+        if (currentQuestion.userChoice != ""){
+            when (currentQuestion.answers.indexOf(currentQuestion.userChoice)){
+                0 -> binding.optionOne.isChecked = true
+                1 -> binding.optionTwo.isChecked = true
+                2 -> binding.optionThree.isChecked = true
+                3 -> binding.optionFour.isChecked = true
+                4 -> binding.optionFive.isChecked = true
+                else -> { }
+            }
+
+            binding.nextButton.isEnabled = true
+        } else {
+            binding.nextButton.isEnabled = false
+        }
     }
 
     override fun onAttach(context: Context) {
