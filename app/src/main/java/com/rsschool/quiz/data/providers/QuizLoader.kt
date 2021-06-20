@@ -1,3 +1,5 @@
+package com.rsschool.quiz.data.providers
+
 import android.content.Context
 import com.rsschool.quiz.data.Question
 import com.rsschool.quiz.data.loadQuestions

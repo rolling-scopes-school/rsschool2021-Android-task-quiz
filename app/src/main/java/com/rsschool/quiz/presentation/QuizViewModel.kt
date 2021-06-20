@@ -1,7 +1,7 @@
 package com.rsschool.quiz.presentation
 
 
-import IQuizLoader
+import com.rsschool.quiz.data.providers.IQuizLoader
 import android.util.Log
 import androidx.lifecycle.*
 import com.rsschool.quiz.data.Question

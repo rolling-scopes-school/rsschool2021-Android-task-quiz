@@ -1,17 +1,16 @@
 package com.rsschool.quiz.presentation
 
-import com.rsschool.quiz.data.providers.QuizLoader
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.rsschool.quiz.data.providers.QuizLoader
 
-class QuizViewModelFactory (
+class QuizListViewModelFactory(
     private val questionListLoader: QuizLoader
 ) : ViewModelProvider.Factory {
-
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(QuizViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(QuizListViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return QuizViewModel(questionListLoader) as T
+            return QuizListViewModel(questionListLoader) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

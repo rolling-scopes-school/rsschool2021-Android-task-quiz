@@ -1,6 +1,5 @@
 package com.rsschool.quiz.presentation
 
-// TODO: import androidx.lifecycle.LifecycleObserver
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,7 +14,7 @@ import com.rsschool.quiz.data.Question
 import com.rsschool.quiz.databinding.FragmentQuizBinding
 import com.rsschool.quiz.presentation.QuizViewModel.Companion.INVALID_QUESTION
 
-class QuizFragment: Fragment(R.layout.fragment_quiz)/*TODO: , LifecycleObserver*/ {
+class QuizFragment: Fragment(R.layout.fragment_quiz) {
 
     private lateinit var viewModel: QuizViewModel
     private var _binding: FragmentQuizBinding? = null
@@ -42,9 +41,9 @@ class QuizFragment: Fragment(R.layout.fragment_quiz)/*TODO: , LifecycleObserver*
         view: View,
         savedInstanceState: Bundle?
     ) {
-        // TODO: Use the ViewModel
         viewModel = (requireActivity().application as QuizApplication)
-            .appContainer.getQuizViewModel(this)
+            .appContainer
+            .getQuizViewModel(this)
         initView()
         viewModel.loadQuestions()
         viewModel.questionList.observe(viewLifecycleOwner, this::loadQuestionList)
