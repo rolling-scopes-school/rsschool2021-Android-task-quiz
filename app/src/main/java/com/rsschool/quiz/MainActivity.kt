@@ -1,5 +1,7 @@
 package com.rsschool.quiz
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -51,11 +53,22 @@ class MainActivity : AppCompatActivity(), AppNavigation {
 
     override fun showResult() {
         supportFragmentManager.beginTransaction()
-            .replace(android.R.id.content, ResultFragment.newInstance("",""))
+            .replace(android.R.id.content, ResultFragment.newInstance())
             .commit()
     }
 
     override fun sendResult() {
-        TODO("Not yet implemented")
+        val intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            data = Uri.parse("mailto:")
+            putExtra(Intent.EXTRA_TEXT, "some result")
+            type = "text/plain"
+        }
+
+        startActivity(Intent.createChooser(intent, null))
+    }
+
+    override fun closeQuiz(){
+        finish()
     }
 }

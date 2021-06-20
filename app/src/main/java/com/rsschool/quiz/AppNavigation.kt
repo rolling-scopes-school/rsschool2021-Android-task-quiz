@@ -6,5 +6,6 @@ interface AppNavigation {
     fun showPrevious()
     fun showResult()
     fun sendResult()
+    fun closeQuiz()
 }
 

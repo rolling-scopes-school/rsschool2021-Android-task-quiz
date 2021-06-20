@@ -30,7 +30,6 @@ class QuizFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         binding.question.text = "question = $question"
 
         binding.nextButton.setOnClickListener {
