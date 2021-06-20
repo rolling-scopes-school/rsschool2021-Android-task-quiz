@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.rsschool.quiz.data.QuizGame
@@ -27,7 +26,7 @@ class QuizFragment : Fragment() {
     ): View {
         _binding = FragmentQuizBinding.inflate(inflater, container, false)
         question = requireArguments().getInt(QUESTION_NUMBER)
-        binding.toolbar.title = "Question ${question+1}"
+        binding.toolbar.title = getString(R.string.question_label, (question+1).toString())
 
         return binding.root
     }
@@ -42,6 +41,11 @@ class QuizFragment : Fragment() {
         }
 
         setQuestionOnFragment()
+        setTheme()
+    }
+
+    private fun setTheme() {
+        //
     }
 
     private fun setQuestionOnFragment() {
@@ -55,8 +59,7 @@ class QuizFragment : Fragment() {
         binding.optionFive.text = currentQuestion.answers[4]
 
         binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
-            currentQuestion.userChoice = (binding.radioGroup.findViewById(checkedId) as RadioButton)?.text.toString()
-            Toast.makeText(requireContext(), currentQuestion.userChoice, Toast.LENGTH_SHORT).show()
+            currentQuestion.userChoice = (binding.radioGroup.findViewById(checkedId) as RadioButton).text.toString()
             binding.nextButton.isEnabled = true
         }
 
