@@ -27,13 +27,13 @@ class Result : Fragment() {
     }
 
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
+    private var param1: String = ""
     private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
+            param1 = it.getString(ARG_PARAM1) ?: ""
             param2 = it.getString(ARG_PARAM2)
         }
     }
@@ -44,6 +44,23 @@ class Result : Fragment() {
     ): View? {
         _binding = FragmentResultBinding.inflate(inflater,container,false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        with(binding){
+            resultText.text = param1
+            btnBack.setOnClickListener {
+                //todo start new quiz
+            }
+            btnClose.setOnClickListener {
+                //todo shutdown app
+            }
+            btnShare.setOnClickListener {
+                //todo share result
+            }
+        }
+
     }
 
     companion object {
@@ -59,11 +76,11 @@ class Result : Fragment() {
 
         // TODO: Rename and change types and number of parameters !~!!!!!!!!!!!!!!!!!
         @JvmStatic
-        fun newInstance(): Fragment {
+        fun newInstance(param1: String): Fragment {
             return Result().apply {
                 arguments = Bundle().apply {
                     //todo array to params
-                    //putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM1, param1)
                     //putString(ARG_PARAM2, param2)
                 }
             }

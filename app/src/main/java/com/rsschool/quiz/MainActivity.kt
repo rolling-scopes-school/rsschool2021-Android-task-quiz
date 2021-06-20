@@ -1,16 +1,14 @@
 package com.rsschool.quiz
 
-import android.graphics.Color
+
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.toColor
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.rsschool.quiz.databinding.ActivityMainBinding
-import com.rsschool.quiz.databinding.Fragment1QuizBinding
 
-class MainActivity : AppCompatActivity(), Fragment1_quiz.ActionPerformedListener {
+@Suppress("DEPRECATION")
+class MainActivity : AppCompatActivity(), Quiz.ActionPerformedListener {
 
     private lateinit var fragment:      Fragment
     private lateinit var transaction:   FragmentTransaction
@@ -32,7 +30,8 @@ class MainActivity : AppCompatActivity(), Fragment1_quiz.ActionPerformedListener
         } else openResult()
     }
 
-    override fun previousQuestion() {
+    override fun previousQuestion(answer: Int) {
+        keys[navigation]        = answer
         openQuestion(keys[--navigation],navigation)
         setStatusBarColor()
     }
@@ -48,15 +47,19 @@ class MainActivity : AppCompatActivity(), Fragment1_quiz.ActionPerformedListener
         openQuestion(null,navigation)
     }
     private fun openQuestion (prevAnswer: Int?,question: Int){         //start with 0
-        fragment    = Fragment1_quiz.newInstance(prevAnswer,question)
+        fragment    = Quiz.newInstance(prevAnswer,question)
         transaction = supportFragmentManager.beginTransaction()
         transaction.replace(binding.Container.id,fragment) .commit()
     }
-    private fun openResult(){
-        val result:     Fragment             = Result.newInstance()
+    private fun openResult(){                //todo parameters String with result "Your result: 15%" and, may be string Array with correct and user answers answers
+        var correctAnswers = 0
+        isCorrect.forEach { if(it.value )  ++correctAnswers }
+        val resultQuiz = "You result is: $correctAnswers/5"
+        val result:     Fragment             = Result.newInstance(resultQuiz)
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         transaction.replace(binding.Container.id,result).commit()
     }
+
     private fun setStatusBarColor(){
         when(navigation){
             0       -> window.statusBarColor = this.resources.getColor(R.color.deep_orange_100_dark)

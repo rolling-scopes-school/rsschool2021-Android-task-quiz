@@ -2,14 +2,11 @@ package com.rsschool.quiz
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
-import android.widget.RadioGroup
-import androidx.core.view.forEach
 import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -18,7 +15,7 @@ import com.rsschool.quiz.databinding.Fragment1QuizBinding
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 //TODO TRY ON API =16!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-class Fragment1_quiz : Fragment() {
+class Quiz : Fragment() {
 
     private var _binding: Fragment1QuizBinding? = null
     private val binding get() = requireNotNull (_binding)
@@ -32,7 +29,7 @@ class Fragment1_quiz : Fragment() {
 
     interface ActionPerformedListener {
         fun nextQuestion (answer: Int, correct: Boolean)
-        fun previousQuestion ()
+        fun previousQuestion (answer: Int)
     }
 
     override fun onAttach(context: Context) {
@@ -44,7 +41,7 @@ class Fragment1_quiz : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         arguments?.let{
             previousAnswer = it.getInt(ARG_PARAM1)
             questionNumber = it.getInt(ARG_PARAM2)
@@ -77,7 +74,7 @@ class Fragment1_quiz : Fragment() {
                     radioContent.add(optionFive)
 
             toolbar.findViewsWithText(
-                outViews,"Back to the previous question",   //TODO KOSTIL'
+                outViews,"Back to the previous question",   //TODO Rework this method to valid method
                 View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION)       //Find back Button and send to the arrayList
 
             radioGroup.setOnCheckedChangeListener {             //radioGroup listener
@@ -93,26 +90,26 @@ class Fragment1_quiz : Fragment() {
                 else listener?.nextQuestion(answer, false)
             }
             previousButton.setOnClickListener {
-                listener?.previousQuestion()
+                listener?.previousQuestion(answer)
             }   //btnPrev listener
 
             toolbar.setNavigationOnClickListener {              //Navigation listener
                 //previousQuestion() TODO If pageIndex ==0 ....
-                listener?.previousQuestion()
+                listener?.previousQuestion(answer)
             }
 
         }
-        drawFragment(questionNumber,radioContent)                //!!!draw Fragment
+        drawFragment()                //!!!draw Fragment
 
     }
-    //TODO CHECK FOR NEED PAGEINDEX IN METHODS PARAMS
+
     //method for drawing Fragment_quiz
-    private fun drawFragment(questionNumber: Int,radioContent: ArrayList<RadioButton>){
-        buttonsDraw(questionNumber)                              //Visible/Invisible Buttons and Text of btnNext
-        fillQuestionAndAnswers(questionNumber,radioContent)      //Print question and answers
+    private fun drawFragment(){
+        buttonsDraw()                              //Visible/Invisible Buttons and Text of btnNext
+        fillQuestionAndAnswers()      //Print question and answers
     }
 
-    private fun buttonsDraw (questionNumber: Int){
+    private fun buttonsDraw (){
         //check answers for being answered
         binding.nextButton.isEnabled = isChecked(radioContent)     //disable next before check radioGroup
 
@@ -133,7 +130,7 @@ class Fragment1_quiz : Fragment() {
         content.forEach { if(it.isChecked) return true }
         return false
     }
-    private fun fillQuestionAndAnswers(questionNumber: Int,radioContent: ArrayList<RadioButton>){
+    private fun fillQuestionAndAnswers(){
         //fill they text with answers
         for (index in radioContent.indices){
             radioContent[index].text =
@@ -155,8 +152,8 @@ class Fragment1_quiz : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: Int?,param2: Int) :Fragment1_quiz {
-            return Fragment1_quiz().apply {
+        fun newInstance(param1: Int?,param2: Int) :Quiz {
+            return Quiz().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_PARAM1, param1 ?: -1)
                     putInt(ARG_PARAM2, param2)
