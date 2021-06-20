@@ -40,6 +40,10 @@ class QuizFragment : Fragment() {
             listener?.showPrevious()
         }
 
+        binding.toolbar.setNavigationOnClickListener{
+            listener?.showPrevious()
+        }
+
         setQuestionOnFragment()
         setTheme()
     }
@@ -49,6 +53,14 @@ class QuizFragment : Fragment() {
     }
 
     private fun setQuestionOnFragment() {
+        if (question == 0){
+            binding.previousButton.isEnabled = false
+        }
+
+        if (question == QuizGame.questionsList.size-1){
+            binding.nextButton.text = getString(R.string.submit_label)
+        }
+
         val currentQuestion = QuizGame.questionsList[question]
 
         binding.question.text = currentQuestion.question

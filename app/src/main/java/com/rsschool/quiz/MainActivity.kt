@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.rsschool.quiz.data.QuizGame
 import com.rsschool.quiz.databinding.ActivityMainBinding
+import java.lang.StringBuilder
 
 
 class MainActivity : AppCompatActivity(), AppNavigation {
@@ -64,6 +65,7 @@ class MainActivity : AppCompatActivity(), AppNavigation {
 
     private fun changeStatusBarColor() {
         // don't know how do it from theme yet
+        // and still had one bag
         window.statusBarColor = ContextCompat.getColor(
             baseContext, when (current) {
                 0 -> R.color.deep_orange_100_dark
@@ -94,12 +96,27 @@ class MainActivity : AppCompatActivity(), AppNavigation {
     override fun sendResult() {
         val intent = Intent().apply {
             action = Intent.ACTION_SEND
+            //Quiz results
             data = Uri.parse("mailto:")
-            putExtra(Intent.EXTRA_TEXT, "some result")
+            putExtra(Intent.EXTRA_TEXT, formResultText())
             type = "text/plain"
         }
 
         startActivity(Intent.createChooser(intent, null))
+    }
+
+    private fun formResultText(): String {
+        val result = StringBuilder()
+
+        result.append("Your result: ${QuizGame.calcResult()}% \n\n")
+
+        QuizGame.questionsList.forEach { question ->
+            result.append(
+                "${question.id}) ${question.question}\n" +
+                        "Your answer: ${question.userChoice}\n"
+            )
+        }
+        return result.toString()
     }
 
     override fun closeQuiz() {

@@ -69,4 +69,15 @@ object QuizGame {
             userChoice = ""
         )
     )
+
+    fun calcResult(): Int {
+        val step = 20
+        var result = 0
+        questionsList.forEach { question ->
+            if (question.userChoice == question.rightAnswer){
+                result += step
+            }
+        }
+        return result
+    }
 }

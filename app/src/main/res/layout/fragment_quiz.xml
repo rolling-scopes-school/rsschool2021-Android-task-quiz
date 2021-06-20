@@ -82,6 +82,7 @@
                 android:id="@+id/radio_group"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="@id/margin_end_guideline"
                 app:layout_constraintStart_toStartOf="@id/margin_start_guideline"
                 app:layout_constraintTop_toBottomOf="@id/question">
