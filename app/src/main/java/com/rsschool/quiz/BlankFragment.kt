@@ -42,10 +42,9 @@ class BlankFragment : Fragment() {
         //этот метод выполняется при смене страницы и в position передается номер страницы
 
 
-        // Если вы используете ViewBinding во фрагменте и держите ссылку на binding во фрагменте (а не только в методе onCreateView())
+        // return inflater.inflate(R.layout.fragment_blank, container, false)
         _binding = FragmentQuizBinding.inflate(inflater, container, false)
         return binding.root
-        // return inflater.inflate(R.layout.fragment_blank, container, false)
     }
 
     // В переопределенном методе onViewCreated получаем аргумент, находим текстовое поле и передаем туда значение аргумента для отображения.
@@ -77,7 +76,10 @@ class BlankFragment : Fragment() {
         }
 
         binding.nextButton.setOnClickListener {
-            if (tempInt > 4) listener?.runResultActivity()
+            if (tempInt > 4) {
+                listener?.runResultFragment()
+
+            }
                 else listener?.nextFragment()
         }
 

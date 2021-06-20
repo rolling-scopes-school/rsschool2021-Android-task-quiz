@@ -12,7 +12,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 class NumberAdapter(fragment: FragmentActivity) : FragmentStateAdapter(fragment) {
 
     // набор данных, которые свяжем со списком
-    private val dao = DaoArrayList()
+    private val dao = DataObjectAccess()
 
     // Требуется переопределить метод getItemCount, возвращающий общее количество элементов списка.
     override fun getItemCount(): Int = dao.getSize()

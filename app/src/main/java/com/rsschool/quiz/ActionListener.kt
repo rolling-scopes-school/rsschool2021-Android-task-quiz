@@ -4,6 +4,6 @@ interface ActionListener {
     fun currentFragment(): Int
     fun nextFragment()
     fun backFragment()
-    fun runResultActivity()
+    fun runResultFragment()
     fun addAnswer(numberQuest: Int, numberAnswer: Int)
 }

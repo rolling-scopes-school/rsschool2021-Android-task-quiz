@@ -1,23 +1,22 @@
 package com.rsschool.quiz
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.rsschool.quiz.databinding.ActivityMainBinding
 
+const val EXTRA_MESSAGE = "com.rsschool.quiz.MESSAGE"
 
 // MainActivity Унаследуем от FragmentActivity.
 public class MainActivity : FragmentActivity(), ActionListener {
     // Объявим переменные для адаптера и вьюпейджера.
     private lateinit var adapter: NumberAdapter
     private lateinit var viewPager: ViewPager2
-    // private lateinit var resultFragment: ResultFragment
 
     // Ресурсы
     private lateinit var binding: ActivityMainBinding
-    private val user: UserObject = UserObject( "Jesus", hashMapOf())
-    private val dataQuiz = DaoArrayList()
-    private var messageResult = "No result"
+    private val dataQuiz = DataObjectAccess()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +28,9 @@ public class MainActivity : FragmentActivity(), ActionListener {
         // В методе onCreate инициализируем адаптер, передав ему текущее активити как владелец жизненного цикла
         adapter = NumberAdapter(this)
         // находим вьюпейджер по идентификатору и передаем ему адаптер.
-        viewPager = findViewById(R.id.pager)
+
+        viewPager = binding.pager
+        // viewPager = findViewById(R.id.pager)
         viewPager.adapter = adapter
     }
 
@@ -45,22 +46,17 @@ public class MainActivity : FragmentActivity(), ActionListener {
         --viewPager.currentItem
     }
 
-    override fun runResultActivity() {
+    override fun runResultFragment() {
 
-        var result = 0
-        for (x in 0..4) {
-            if (dataQuiz.getQuizCorrectAnswer(x) == user.numAnswers[x+1]) ++result
+        val intent = Intent(this, ResultActivity::class.java).apply {
+            putExtra(EXTRA_MESSAGE, dataQuiz.getResultMessage())
         }
-        messageResult = "Результат квиза: $result из 5."
-
-//        resultFragment = ResultFragment.newInstance(messageResult, "test")
-//        val transaction = supportFragmentManager.beginTransaction()
-//        transaction.add(R.id.container, resultFragment)
-//        transaction.commit()
+        startActivity(intent)
+        finish()
     }
 
     override fun addAnswer(numberQuest: Int, numberAnswer: Int) {
-        user.numAnswers[numberQuest] = numberAnswer
+        dataQuiz.addAnswer(numberQuest, numberAnswer)
     }
 
 }

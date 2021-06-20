@@ -3,6 +3,6 @@
     <string name="BackButtonText">Back</string>
     <string name="NextButtonText">Next</string>
     <string name="Share">Share</string>
-    <string name="ViewResult">ViewResult</string>
+    <string name="ViewResult">Результат квиза: $result из 5.</string>
     <string name="Exit">Exit</string>
 </resources>
