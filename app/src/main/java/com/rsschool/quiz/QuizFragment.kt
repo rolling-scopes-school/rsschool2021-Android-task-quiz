@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.rsschool.quiz.databinding.FragmentQuizBinding
@@ -25,13 +24,12 @@ class QuizFragment : Fragment() {
     ): View {
         _binding = FragmentQuizBinding.inflate(inflater, container, false)
         question = requireArguments().getInt(QUESTION_NUMBER)
+        binding.toolbar.title = "Question ${question+1}"
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.question.text = "question = $question"
-
         binding.nextButton.setOnClickListener {
             listener?.showNext()
         }
@@ -40,6 +38,11 @@ class QuizFragment : Fragment() {
             listener?.showPrevious()
         }
 
+        //setQuestionOnFragment()
+    }
+
+    private fun setQuestionOnFragment() {
+        TODO("Not yet implemented")
     }
 
     override fun onAttach(context: Context) {

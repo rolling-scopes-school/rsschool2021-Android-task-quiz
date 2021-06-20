@@ -4,15 +4,13 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
-import androidx.fragment.app.FragmentTransaction
+import com.rsschool.quiz.data.QuizGame
 import com.rsschool.quiz.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), AppNavigation {
 
     private lateinit var binding: ActivityMainBinding
     var current = 0
-    val max = 5
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +22,7 @@ class MainActivity : AppCompatActivity(), AppNavigation {
     }
 
     override fun startQuiz() {
+        resetQuestions()
         current = 0
 
         supportFragmentManager.beginTransaction()
@@ -32,7 +31,7 @@ class MainActivity : AppCompatActivity(), AppNavigation {
     }
 
     override fun showNext() {
-        if (current == max){
+        if (current == QuizGame.questionsList.size-1){
             showResult()
         } else {
             current++
@@ -70,5 +69,12 @@ class MainActivity : AppCompatActivity(), AppNavigation {
 
     override fun closeQuiz(){
         finish()
+    }
+
+    private fun resetQuestions() {
+        QuizGame.questionsList.forEach { question ->
+            question.answers.shuffle()
+            question.userChoice = ""
+        }
     }
 }
