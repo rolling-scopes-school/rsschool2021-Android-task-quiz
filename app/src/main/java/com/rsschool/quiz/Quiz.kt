@@ -28,7 +28,7 @@ class Quiz : Fragment() {
     private lateinit var outViews: ArrayList<View>    //array for view of toolbar with describing
 
     interface ActionPerformedListener {
-        fun nextQuestion (answer: Int, correct: Boolean)
+        fun nextQuestion (answer: Int)
         fun previousQuestion (answer: Int)
     }
 
@@ -85,9 +85,9 @@ class Quiz : Fragment() {
             }
            
             nextButton.setOnClickListener {                        //btnNext listener
-                if(answer == questionList[questionNumber].correct )
-                    listener?.nextQuestion(answer, true)
-                else listener?.nextQuestion(answer, false)
+               // if(answer == questionList[questionNumber].correct )
+                    listener?.nextQuestion(answer)
+              //  else listener?.nextQuestion(answer, false)
             }
             previousButton.setOnClickListener {
                 listener?.previousQuestion(answer)

@@ -1,7 +1,9 @@
 package com.rsschool.quiz
 
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -14,35 +16,41 @@ class MainActivity : AppCompatActivity(), Quiz.ActionPerformedListener, Result.A
     private lateinit var transaction:   FragmentTransaction
     private lateinit var binding:       ActivityMainBinding
     private          var navigation =   0 // number of active page
-    private lateinit var answers:       MutableMap<Int,MutableMap<Int,Boolean>>  //TODO try to sparseArray
+    private lateinit var answers:       MutableMap<Int,Int>
+    // MutableMap<Int,MutableMap<Int,Boolean>>  //TODO try to sparseArray
                                         //<#question(navigation),<answer,isCorrect>
-    private lateinit var isCorrect:     MutableMap<Int,Boolean>
-    private lateinit var keys:          MutableMap<Int,Int>
+    //private lateinit var isCorrect:     MutableMap<Int,Boolean>// todo noneed?
+    //private lateinit var keys:          MutableMap<Int,Int>
                                         //<navi,answer>
-    override fun nextQuestion(answer: Int, correct: Boolean) {//todo accept answer: Int, question: Question
-        isCorrect[navigation]   = correct
-        keys[navigation]        = answer
-        answers[navigation]     = isCorrect                                 // Save Question, answer and isCorrect
 
+    private lateinit var questionList: List<Question>
+
+    override fun nextQuestion(answer: Int) {//todo accept answer: Int, question: Question
+        /*isCorrect[navigation]   = correct
+        keys[navigation]        = answer*/
+        answers[navigation]     = answer                                 // Save Question, answer and isCorrect
+        answers.forEach { Log.d("myLogs","$it") }//todo!!!!!!
         if(navigation < 4) {
-            openQuestion(keys[++navigation],navigation)
+            openQuestion(answers[++navigation],navigation)
             setStatusBarColor()
-        } else openResult()
+        } else {
+            navigation++
+            setStatusBarColor()
+            openResult()
+        }
     }
 
     override fun previousQuestion(answer: Int) {
-        keys[navigation]        = answer
-        openQuestion(keys[--navigation],navigation)
+        answers[navigation]        = answer
+        openQuestion(answers[--navigation],navigation)
         setStatusBarColor()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //setTheme(R.style.Theme_Quiz_Fourth)
         super.onCreate(savedInstanceState)
         binding     = ActivityMainBinding.inflate(layoutInflater)
-        answers     = mutableMapOf()
-        isCorrect   = mutableMapOf()
-        keys        = mutableMapOf()
+        answers     = mutableMapOf()                       //init array for answers
+        questionList    = ResRepo().getQuestions()      //get list of questions
         setContentView(binding.root)
         openQuestion(null,navigation)
     }
@@ -51,10 +59,8 @@ class MainActivity : AppCompatActivity(), Quiz.ActionPerformedListener, Result.A
         transaction = supportFragmentManager.beginTransaction()
         transaction.replace(binding.Container.id,fragment) .commit()
     }
-    private fun openResult(){                //todo parameters String with result "Your result: 15%" and, may be string Array with correct and user answers answer
-        var correctAnswers = 0
-        isCorrect.forEach { if(it.value )  ++correctAnswers }
-        val resultQuiz = "You result is: $correctAnswers/5"
+    private fun openResult(){
+        val resultQuiz = "You result is: ${correctAnswersCount()}/5"
         val result:     Fragment             = Result.newInstance(resultQuiz)
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         transaction.replace(binding.Container.id,result).commit()
@@ -62,8 +68,8 @@ class MainActivity : AppCompatActivity(), Quiz.ActionPerformedListener, Result.A
     private fun clear(){
         navigation = 0
         answers.clear()
-        isCorrect.clear()
-        keys.clear()
+        /*isCorrect.clear()
+        keys.clear()*/
         setStatusBarColor()
     }
     private fun setStatusBarColor(){
@@ -75,6 +81,14 @@ class MainActivity : AppCompatActivity(), Quiz.ActionPerformedListener, Result.A
             4       -> window.statusBarColor = this.resources.getColor(R.color.grey_primary_dark)
             else    -> window.statusBarColor = this.resources.getColor(R.color.deep_orange_100_dark)
         }
+    }
+    private fun correctAnswersCount(): Int{
+        var count = 0
+        for (i in answers.keys){
+            if (answers[i] == questionList[i].correct)
+                count++
+        }
+        return count
     }
 
     override fun startNewQuiz() {
@@ -88,7 +102,18 @@ class MainActivity : AppCompatActivity(), Quiz.ActionPerformedListener, Result.A
     }
 
     override fun share() {
-        //composeMessage()
+        Log.d("myLogs",composeMessage())
+        //val intent = Intent(this,Intent.)
         //TODO share result using intent, compose result text
+    }
+    private fun composeMessage(): String {
+        val str = StringBuffer("\nYou result is: ${correctAnswersCount()}/5")
+        //todo str compose
+        for(i in answers.keys){
+            str.append("\n")
+            str.append("\n ${questionList[i].question}")
+            str.append("\n Your answer is: ${questionList[i].answers[answers[i] ?: -1]}")
+        }
+        return str.toString()
     }
 }
