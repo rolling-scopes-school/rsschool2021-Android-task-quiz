@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.rsschool.quiz.databinding.FragmentQuizBinding
-import kotlin.properties.Delegates
 
 
 // Вне тела класса создаем константу для ключа аргумента, который будем передавать в каждый новый экземпляр фрагмента.
@@ -16,16 +15,18 @@ const val ARG_OBJECT = "object"
 // Этот фрагмент будет использоваться для каждого нового экрана в приложении, мы будем создавать новый его экземпляр и передавать туда его порядковый номер.
 class BlankFragment : Fragment() {
 
-    private var listener: ActionListener? = null
+    private var _listener: ActionListener? = null
+    private val listener get() = _listener!!
     private var _binding: FragmentQuizBinding? = null
     private val binding get() = _binding!!
 
-    private var tempInt by Delegates.notNull<Int>()
+    private var currentFragment = 0
+
 
     // Добавляем слушатель через контекст
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = context as ActionListener
+        _listener = context as ActionListener
     }
 
     override fun onCreateView(
@@ -33,8 +34,6 @@ class BlankFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        // activity?.theme?.applyStyle(R.style.Theme_Quiz_Purple, true)
 
         // return inflater.inflate(R.layout.fragment_blank, container, false)
         _binding = FragmentQuizBinding.inflate(inflater, container, false)
@@ -49,35 +48,9 @@ class BlankFragment : Fragment() {
 
             // Чтобы получить отправленные данные при загрузке из Bundle arguments, можно воспользоваться методом get(), в который передается ключ объекта:
             val quizObject: QuizObject = get(ARG_OBJECT) as QuizObject
+            currentFragment = quizObject.numberQuestion
 
             binding.toolbar.title = "Question ${quizObject.numberQuestion}"
-
-            // Общее для всех функций свойство класса
-            tempInt = quizObject.numberQuestion
-
-            when (tempInt) {
-                1 -> {
-                    activity?.theme?.applyStyle(R.style.Theme_Quiz_Purple, true)
-                    // activity?.window?.statusBarColor = resources.getColor(R.color.secondaryDarkColorPurple)
-                }
-                2 -> {
-                    activity?.theme?.applyStyle(R.style.Theme_Quiz_Blue, true)
-                    // activity?.window?.statusBarColor = resources.getColor(R.color.secondaryDarkColorBlue)
-                }
-                3 -> {
-                    activity?.theme?.applyStyle(R.style.Theme_Quiz_Green, true)
-                    // activity?.window?.statusBarColor = resources.getColor(R.color.secondaryDarkColorGreen)
-                }
-                4 -> {
-                    activity?.theme?.applyStyle(R.style.Theme_Quiz_Yellow, true)
-                    // activity?.window?.statusBarColor = resources.getColor(R.color.secondaryDarkColorYellow)
-                }
-                5 -> {
-                    activity?.theme?.applyStyle(R.style.Theme_Quiz_Orange, true)
-                    // activity?.window?.statusBarColor = resources.getColor(R.color.secondaryDarkColorOrange)
-                }
-            }
-
             binding.question.text = quizObject.question
             binding.optionOne.text = quizObject.answers[0]
             binding.optionTwo.text = quizObject.answers[1]
@@ -86,36 +59,35 @@ class BlankFragment : Fragment() {
             binding.optionFive.text = quizObject.answers[4]
 
             binding.nextButton.isEnabled = false
-            binding.previousButton.isEnabled = tempInt >= 2
+            binding.previousButton.isEnabled = currentFragment >= 2
 
             // Сделать проверку наличия ответов
-            if (tempInt > 4) binding.nextButton.text = "Submit"
+            if (currentFragment > 4) binding.nextButton.text = "Submit"
         }
 
         binding.nextButton.setOnClickListener {
-            if (tempInt > 4) {
-                listener?.runResultFragment()
+            if (currentFragment > 4) {
+                listener.runResultFragment()
 
             }
-                else listener?.nextFragment()
+                else listener.nextFragment()
         }
 
         binding.previousButton.setOnClickListener {
-            listener?.backFragment()
+            listener.backFragment()
         }
 
         binding.toolbar.setOnClickListener {
-            listener?.backFragment()
+            listener.backFragment()
         }
 
         binding.radioGroup.setOnCheckedChangeListener { _, checkId ->
             when (checkId) {
-                binding.optionOne.id -> listener?.addAnswer(tempInt, 1)
-                binding.optionTwo.id -> listener?.addAnswer(tempInt, 2)
-                binding.optionThree.id -> listener?.addAnswer(tempInt, 3)
-                binding.optionFour.id -> listener?.addAnswer(tempInt, 4)
-                binding.optionFive.id -> listener?.addAnswer(tempInt, 5)
-
+                binding.optionOne.id -> listener.addAnswer(currentFragment, 1)
+                binding.optionTwo.id -> listener.addAnswer(currentFragment, 2)
+                binding.optionThree.id -> listener.addAnswer(currentFragment, 3)
+                binding.optionFour.id -> listener.addAnswer(currentFragment, 4)
+                binding.optionFive.id -> listener.addAnswer(currentFragment, 5)
             }
             binding.nextButton.isEnabled = true
         }

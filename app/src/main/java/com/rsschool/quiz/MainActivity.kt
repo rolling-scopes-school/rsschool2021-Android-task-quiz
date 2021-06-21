@@ -6,10 +6,11 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.rsschool.quiz.databinding.ActivityMainBinding
 
+
 const val EXTRA_MESSAGE = "com.rsschool.quiz.MESSAGE"
 
 // MainActivity Унаследуем от FragmentActivity.
-public class MainActivity : FragmentActivity(), ActionListener {
+class MainActivity : FragmentActivity(), ActionListener {
     // Объявим переменные для адаптера и вьюпейджера.
     private lateinit var adapter: NumberAdapter
     private lateinit var viewPager: ViewPager2
@@ -17,7 +18,6 @@ public class MainActivity : FragmentActivity(), ActionListener {
     // Ресурсы
     private lateinit var binding: ActivityMainBinding
     private val dataQuiz = DataObjectAccess()
-    // private val position = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,20 +28,30 @@ public class MainActivity : FragmentActivity(), ActionListener {
 
         // В методе onCreate инициализируем адаптер, передав ему текущее активити как владелец жизненного цикла
         adapter = NumberAdapter(this)
+
         // находим вьюпейджер по идентификатору и передаем ему адаптер.
-
         viewPager = binding.pager
-        // viewPager = findViewById(R.id.pager)
         viewPager.adapter = adapter
-    }
 
-    override fun currentFragment(): Int {
-        return viewPager.currentItem
+        // viewPager.isUserInputEnabled = false
+        viewPager.registerOnPageChangeCallback(object:ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                when(position){
+                    1 -> window.statusBarColor = getColor(R.color.secondaryDarkColorPurple)
+                    2 -> window.statusBarColor = getColor(R.color.secondaryDarkColorBlue)
+                    3 -> window.statusBarColor = getColor(R.color.secondaryDarkColorGreen)
+                    4 -> window.statusBarColor = getColor(R.color.secondaryDarkColorYellow)
+                    5 -> window.statusBarColor = getColor(R.color.secondaryDarkColorOrange)
+                    else -> window.statusBarColor = getColor(R.color.secondaryDarkColor)
+                }
+            }
+        }
+        )
+
     }
 
     override fun nextFragment() {
         ++viewPager.currentItem
-        // viewPager.isUserInputEnabled = false
     }
 
     override fun backFragment() {
