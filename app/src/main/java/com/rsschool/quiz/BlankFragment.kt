@@ -66,12 +66,12 @@ class BlankFragment : Fragment() {
             // Блокируем кнопку первого фрагмента
             binding.previousButton.isEnabled = currentFragment >= 2
 
-            // Сделать проверку наличия ответов listener.checkAnswersCount() == 5
+            // Меняем надпись на последнем фрагменте
             if (currentFragment > 4) binding.nextButton.text = "Submit"
         }
 
         binding.nextButton.setOnClickListener {
-            if (currentFragment > 4) listener.runResultFragment()
+            if (listener.checkAnswersCount()) listener.runResultFragment()
                 else listener.nextFragment()
         }
 

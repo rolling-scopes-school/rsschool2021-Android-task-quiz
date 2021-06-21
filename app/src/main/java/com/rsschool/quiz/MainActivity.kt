@@ -33,7 +33,7 @@ class MainActivity : FragmentActivity(), ActionListener {
         viewPager = binding.pager
         viewPager.adapter = adapter
 
-        // viewPager.isUserInputEnabled = false
+        // Слушаем изменение фрагментов и меняем цвет statusBar
         viewPager.registerOnPageChangeCallback(object:ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {
                 when(position){
@@ -50,6 +50,7 @@ class MainActivity : FragmentActivity(), ActionListener {
 
     }
 
+    // Методы для кнопок, менять фрагменты
     override fun nextFragment() {
         ++viewPager.currentItem
     }
@@ -58,6 +59,7 @@ class MainActivity : FragmentActivity(), ActionListener {
         --viewPager.currentItem
     }
 
+    // Метод реализации меню результата закостылил созданием нового фрагмента и удалением предыдущего
     override fun runResultFragment() {
 
         val intent = Intent(this, ResultActivity::class.java).apply {
@@ -71,8 +73,8 @@ class MainActivity : FragmentActivity(), ActionListener {
         dataQuiz.addAnswer(numberQuest, numberAnswer)
     }
 
-    override fun checkAnswersCount(): Int {
-        return dataQuiz.countAnswer()
+    override fun checkAnswersCount(): Boolean {
+        return dataQuiz.checkAnswers()
     }
 
 }
