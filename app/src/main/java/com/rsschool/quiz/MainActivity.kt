@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.rsschool.quiz.databinding.ActivityMainBinding
 
 @Suppress("DEPRECATION")
-class MainActivity : AppCompatActivity(), Quiz.ActionPerformedListener {
+class MainActivity : AppCompatActivity(), Quiz.ActionPerformedListener, Result.ActionPerformedListener {
 
     private lateinit var fragment:      Fragment
     private lateinit var transaction:   FragmentTransaction
@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity(), Quiz.ActionPerformedListener {
     private lateinit var isCorrect:     MutableMap<Int,Boolean>
     private lateinit var keys:          MutableMap<Int,Int>
                                         //<navi,answer>
-    override fun nextQuestion(answer: Int, correct: Boolean) {
+    override fun nextQuestion(answer: Int, correct: Boolean) {//todo accept answer: Int, question: Question
         isCorrect[navigation]   = correct
         keys[navigation]        = answer
         answers[navigation]     = isCorrect                                 // Save Question, answer and isCorrect
@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity(), Quiz.ActionPerformedListener {
         transaction = supportFragmentManager.beginTransaction()
         transaction.replace(binding.Container.id,fragment) .commit()
     }
-    private fun openResult(){                //todo parameters String with result "Your result: 15%" and, may be string Array with correct and user answers answers
+    private fun openResult(){                //todo parameters String with result "Your result: 15%" and, may be string Array with correct and user answers answer
         var correctAnswers = 0
         isCorrect.forEach { if(it.value )  ++correctAnswers }
         val resultQuiz = "You result is: $correctAnswers/5"
@@ -59,7 +59,13 @@ class MainActivity : AppCompatActivity(), Quiz.ActionPerformedListener {
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         transaction.replace(binding.Container.id,result).commit()
     }
-
+    private fun clear(){
+        navigation = 0
+        answers.clear()
+        isCorrect.clear()
+        keys.clear()
+        setStatusBarColor()
+    }
     private fun setStatusBarColor(){
         when(navigation){
             0       -> window.statusBarColor = this.resources.getColor(R.color.deep_orange_100_dark)
@@ -69,5 +75,20 @@ class MainActivity : AppCompatActivity(), Quiz.ActionPerformedListener {
             4       -> window.statusBarColor = this.resources.getColor(R.color.grey_primary_dark)
             else    -> window.statusBarColor = this.resources.getColor(R.color.deep_orange_100_dark)
         }
+    }
+
+    override fun startNewQuiz() {
+        clear()                                 //todo theme change on result to default
+        openQuestion(null,navigation)
+
+    }
+
+    override fun onCloseButton() {
+        this.finish()
+    }
+
+    override fun share() {
+        //composeMessage()
+        //TODO share result using intent, compose result text
     }
 }

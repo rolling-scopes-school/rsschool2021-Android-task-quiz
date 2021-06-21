@@ -1,5 +1,6 @@
 package com.rsschool.quiz
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,20 +11,21 @@ import com.rsschool.quiz.databinding.FragmentResultBinding
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val ARG_PARAM2 = "param2" ///todo needed??
 
-/**
- * A simple [Fragment] subclass.
- * Use the [Result.newInstance] factory method to
- * create an instance of this fragment.
- */
 class Result : Fragment() {
     private var listener: ActionPerformedListener? = null
     private var _binding: FragmentResultBinding? = null
     private val binding get() = requireNotNull(_binding)
 
     interface ActionPerformedListener {
-        fun onActionPerformed ()
+        fun startNewQuiz ()
+        fun onCloseButton()
+        fun share()
+    }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        listener = context as Result.ActionPerformedListener
     }
 
     // TODO: Rename and change types of parameters
@@ -51,28 +53,22 @@ class Result : Fragment() {
         with(binding){
             resultText.text = param1
             btnBack.setOnClickListener {
-                //todo start new quiz
+                listener?.startNewQuiz()
             }
             btnClose.setOnClickListener {
-                //todo shutdown app
+            listener?.onCloseButton()
             }
             btnShare.setOnClickListener {
-                //todo share result
+                listener?.share()
             }
         }
-
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Result.
-         */
-
 
         // TODO: Rename and change types and number of parameters !~!!!!!!!!!!!!!!!!!
         @JvmStatic

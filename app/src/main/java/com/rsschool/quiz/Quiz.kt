@@ -81,7 +81,7 @@ class Quiz : Fragment() {
                     group, checkedId ->
                 answer = group.indexOfChild(group.findViewById(checkedId))
                 nextButton.isEnabled = true
-                //TODO REMEMBERING NOT SUBMITTED
+                //TODO REMEMBERING NOT SUBMITTED -Done!!!
             }
            
             nextButton.setOnClickListener {                        //btnNext listener
