@@ -46,8 +46,8 @@ internal fun parseQuestions(
             id = jQuestion.id,
             text = jQuestion.text,
             choose = jQuestion.choose,
-            answer = jQuestion.answer,
-            selection = -1
+            correctAnswer = jQuestion.answer,
+            userAnswer = -1
         )
     }
 }

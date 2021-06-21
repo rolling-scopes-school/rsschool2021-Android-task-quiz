@@ -1,11 +1,13 @@
 package com.rsschool.quiz.data
 
-import kotlinx.serialization.SerialName
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 class Question(
     val id: Int,
     val text: String,
     val choose: List<String>,
-    val answer: Int,
-    var selection: Int,
-)
+    val correctAnswer: Int,
+    var userAnswer: Int = -1,
+) : Parcelable

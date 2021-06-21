@@ -8,27 +8,30 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
-import com.rsschool.quiz.R
 import com.rsschool.quiz.QuizApplication
+import com.rsschool.quiz.R
 import com.rsschool.quiz.data.Question
 import com.rsschool.quiz.databinding.FragmentQuizBinding
-import com.rsschool.quiz.presentation.QuizViewModel.Companion.INVALID_QUESTION
 
 class QuizFragment: Fragment(R.layout.fragment_quiz) {
 
-    private lateinit var viewModel: QuizViewModel
     private var _binding: FragmentQuizBinding? = null
-    // This property is only valid between onCreateView and onDestroyView.
-    private val binding get() = _binding!!
-
-    private var currentQuestion: Question? = null
+    private val binding get() = _binding!! // Only valid between onCreateView and onDestroyView.
+    private var quizList: Array<Question>? = null
+    private lateinit var viewModel: QuizViewModel
+    private var questionNumber = -1
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        loadSavedState()
         _binding = FragmentQuizBinding.inflate(inflater, container, false)
+        viewModel = (requireActivity().application as QuizApplication)
+            .appContainer.getQuizViewModel(this)
+        quizList?.let { viewModel.setQuizList(it) }
+        initView()
         return binding.root
     }
 
@@ -37,28 +40,50 @@ class QuizFragment: Fragment(R.layout.fragment_quiz) {
         _binding = null
     }
 
-    override fun onViewCreated(
-        view: View,
-        savedInstanceState: Bundle?
-    ) {
-        viewModel = (requireActivity().application as QuizApplication)
-            .appContainer
-            .getQuizViewModel(this)
-        initView()
-        viewModel.loadQuestions()
-        viewModel.questionList.observe(viewLifecycleOwner, this::loadQuestionList)
-//        viewModel.question.observe(viewLifecycleOwner, this::loadQuestion)
+    private fun initView() {
+
+        binding.radioGroup.setOnCheckedChangeListener{ _, itemId ->
+            viewModel.onCheckedChange(itemId)
+        }
+
+        binding.nextButton.setOnClickListener{
+            viewModel.onNextClick()
+            val inst =  newInstance(quizList!!, questionNumber + 1)
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.container, inst, "Question${0}")
+                .addToBackStack(null)
+                .commit()
+        }
+
+        binding.previousButton.setOnClickListener{
+            onBackPressed()
+        }
+
+        binding.toolbar.setNavigationOnClickListener{
+            onBackPressed()
+        }
+
+        viewModel.enableNext.observe(viewLifecycleOwner, this::setNextButtonState )
+        viewModel.enablePrev.observe(viewLifecycleOwner, this::setPrevButtonState )
+        viewModel.questionUpdate.observe(viewLifecycleOwner, this::update)
+        viewModel.currentItemId.observe(viewLifecycleOwner, this::updateItemSelection)
     }
 
-
-    private fun loadQuestionList(list: List<Question>) {
-        if (!list.isNullOrEmpty())
-            viewModel.getQuestionById(0)
+    fun onBackPressed() {
+        with(requireActivity()){
+            if (supportFragmentManager.backStackEntryCount > 0) {
+                supportFragmentManager.popBackStack()
+            } else {
+                onBackPressed()
+            }
+        }
     }
 
-        private fun loadQuestion(question: Question) {
-        if (question.id != INVALID_QUESTION){
-            bindQuestion(question)
+    private fun updateItemSelection(id : Int) {
+        try {
+            binding.radioGroup.check(id)
+        } catch (throwable: Throwable){
+            Log.d(TAG, "Question update Error")
         }
     }
 
@@ -69,40 +94,59 @@ class QuizFragment: Fragment(R.layout.fragment_quiz) {
         }
     }
 
-    private fun initView() {
-
-        viewModel.getPreviousQuestion()
-        viewModel.getQuestionById(0)
-
-        binding.nextButton.setOnClickListener{
-            viewModel.checkAnswer(0, binding.radioGroup.checkedRadioButtonId)
-            viewModel.getNextQuestion()
-        }
-
-        binding.previousButton.setOnClickListener{
-            viewModel.getPreviousQuestion()
+    private fun update(id : Int){
+        try {
+            val list = quizList!!
+            if (id in list.indices)
+                bindQuestion(list[id])
+        } catch (throwable: Throwable){
+            Log.d(TAG, "Question update Error")
         }
     }
 
-    private fun setQuestionList(list: List<Question>){
-        // TODO: Use the Quiz
-        Log.d("LIST:", list.joinToString(" "))
+    private fun setNextButtonState(state : Boolean) {
+        binding.nextButton.isEnabled = state
+    }
+
+    private fun setPrevButtonState(state : Boolean) {
+        binding.previousButton.isEnabled = state
+    }
+
+    private fun loadSavedState(){
+        val parcelableArray = requireArguments().getParcelableArray(QUIZ_KEY)
+        if (parcelableArray != null)
+            quizList =  parcelableArray.map { it as Question }.toTypedArray()
+        questionNumber = requireArguments().getInt(NUMBER_KEY)
     }
 
     companion object {
 
+        const val QUIZ_KEY = "QUIZ"
+        const val NUMBER_KEY = "NUMBER"
         @JvmStatic
-        fun newInstance(previousResult: Int): QuizFragment {
+        fun newInstance(list: Array<Question>): QuizFragment {
             val fragment = QuizFragment()
             val args = Bundle()
-            args.putInt(PREVIOUS_RESULT_KEY, previousResult)
+            args.putParcelableArray(QUIZ_KEY, list)
+            args.putInt(NUMBER_KEY, 0)
             fragment.arguments = args
+            return fragment
+        }
+
+        @JvmStatic
+        fun newInstance(list: Array<Question>, number: Int): QuizFragment {
+            val fragment = QuizFragment()
+            val args = Bundle()
+            args.putParcelableArray(QUIZ_KEY, list)
+            args.putInt(NUMBER_KEY, number)
+            fragment.arguments = args
+
             return fragment
         }
 
         @JvmStatic
         fun newInstance() = QuizFragment()
 
-        private const val PREVIOUS_RESULT_KEY = "PREVIOUS_RESULT"
+        private val TAG = QuizFragment::class.java.simpleName
     }
 }
