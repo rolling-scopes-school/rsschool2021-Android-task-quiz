@@ -20,13 +20,13 @@ class QuizFragment : Fragment() {
     private var listener: AppNavigation? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         _binding = FragmentQuizBinding.inflate(inflater, container, false)
         question = requireArguments().getInt(QUESTION_NUMBER)
-        binding.toolbar.title = getString(R.string.question_label, (question+1).toString())
+        binding.toolbar.title = getString(R.string.question_label, (question + 1).toString())
 
         return binding.root
     }
@@ -40,8 +40,14 @@ class QuizFragment : Fragment() {
             listener?.showPrevious()
         }
 
-        binding.toolbar.setNavigationOnClickListener{
-            listener?.showPrevious()
+        if (question == 0) {
+            binding.toolbar.navigationIcon = null
+        } else {
+            binding.toolbar.setNavigationIcon(R.drawable.ic_baseline_chevron_left_24)
+
+            binding.toolbar.setNavigationOnClickListener {
+                listener?.showPrevious()
+            }
         }
 
         setQuestionOnFragment()
@@ -53,11 +59,11 @@ class QuizFragment : Fragment() {
     }
 
     private fun setQuestionOnFragment() {
-        if (question == 0){
+        if (question == 0) {
             binding.previousButton.isEnabled = false
         }
 
-        if (question == QuizGame.questionsList.size-1){
+        if (question == QuizGame.questionsList.size - 1) {
             binding.nextButton.text = getString(R.string.submit_label)
         }
 
@@ -75,14 +81,15 @@ class QuizFragment : Fragment() {
             binding.nextButton.isEnabled = true
         }
 
-        if (currentQuestion.userChoice != ""){
-            when (currentQuestion.answers.indexOf(currentQuestion.userChoice)){
+        if (currentQuestion.userChoice != "") {
+            when (currentQuestion.answers.indexOf(currentQuestion.userChoice)) {
                 0 -> binding.optionOne.isChecked = true
                 1 -> binding.optionTwo.isChecked = true
                 2 -> binding.optionThree.isChecked = true
                 3 -> binding.optionFour.isChecked = true
                 4 -> binding.optionFive.isChecked = true
-                else -> { }
+                else -> {
+                }
             }
 
             binding.nextButton.isEnabled = true
@@ -101,8 +108,13 @@ class QuizFragment : Fragment() {
         listener = null
     }
 
-    companion object{
-        const val QUESTION_NUMBER  = "questionNumber"
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    companion object {
+        const val QUESTION_NUMBER = "questionNumber"
 
         fun newInstance(question: Int) = QuizFragment().apply {
             arguments = bundleOf(QUESTION_NUMBER to question)

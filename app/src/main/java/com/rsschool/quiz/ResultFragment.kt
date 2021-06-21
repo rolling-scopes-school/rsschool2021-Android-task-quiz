@@ -49,6 +49,11 @@ class ResultFragment : Fragment() {
         listener = null
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     companion object {
         fun newInstance() = ResultFragment()
     }

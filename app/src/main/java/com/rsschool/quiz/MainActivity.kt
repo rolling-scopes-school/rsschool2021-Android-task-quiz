@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.rsschool.quiz.data.QuizGame
 import com.rsschool.quiz.databinding.ActivityMainBinding
-import java.lang.StringBuilder
 
 
 class MainActivity : AppCompatActivity(), AppNavigation {
@@ -50,14 +49,14 @@ class MainActivity : AppCompatActivity(), AppNavigation {
 
     private fun changeTheme() {
         setTheme(
-            when (current) {
-                0 -> R.style.Theme_Quiz_First
-                1 -> R.style.Theme_Quiz_Second
-                2 -> R.style.Theme_Quiz_Third
-                3 -> R.style.Theme_Quiz_Forth
-                4 -> R.style.Theme_Quiz_Fifth
-                else -> R.style.Theme_Quiz_First
-            }
+                when (current) {
+                    0 -> R.style.Theme_Quiz_First
+                    1 -> R.style.Theme_Quiz_Second
+                    2 -> R.style.Theme_Quiz_Third
+                    3 -> R.style.Theme_Quiz_Forth
+                    4 -> R.style.Theme_Quiz_Fifth
+                    else -> R.style.Theme_Quiz_First
+                }
         )
 
         changeStatusBarColor()
@@ -67,14 +66,14 @@ class MainActivity : AppCompatActivity(), AppNavigation {
         // don't know how do it from theme yet
         // and still had one bag
         window.statusBarColor = ContextCompat.getColor(
-            baseContext, when (current) {
-                0 -> R.color.deep_orange_100_dark
-                1 -> R.color.yellow_100_dark
-                2 -> R.color.light_green_100_dark
-                3 -> R.color.cyan_100_dark
-                4 -> R.color.deep_purple_100_dark
-                else -> R.color.deep_orange_100_dark
-            }
+                baseContext, when (current) {
+            0 -> R.color.deep_orange_100_dark
+            1 -> R.color.yellow_100_dark
+            2 -> R.color.light_green_100_dark
+            3 -> R.color.cyan_100_dark
+            4 -> R.color.deep_purple_100_dark
+            else -> R.color.deep_orange_100_dark
+        }
         )
     }
 
@@ -94,15 +93,15 @@ class MainActivity : AppCompatActivity(), AppNavigation {
     }
 
     override fun sendResult() {
-        val intent = Intent().apply {
-            action = Intent.ACTION_SEND
-            //Quiz results
-            data = Uri.parse("mailto:")
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            putExtra(Intent.EXTRA_SUBJECT, "Quiz results")
             putExtra(Intent.EXTRA_TEXT, formResultText())
-            type = "text/plain"
+            selector = Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:")
+            }
         }
 
-        startActivity(Intent.createChooser(intent, null))
+        startActivity(Intent.createChooser(intent, "Share result"))
     }
 
     private fun formResultText(): String {
@@ -112,8 +111,8 @@ class MainActivity : AppCompatActivity(), AppNavigation {
 
         QuizGame.questionsList.forEach { question ->
             result.append(
-                "${question.id}) ${question.question}\n" +
-                        "Your answer: ${question.userChoice}\n"
+                    "${question.id}) ${question.question}\n" +
+                            "Your answer: ${question.userChoice}\n\n"
             )
         }
         return result.toString()
