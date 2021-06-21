@@ -2,6 +2,7 @@ package com.rsschool.quiz
 
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -102,8 +103,16 @@ class MainActivity : AppCompatActivity(), Quiz.ActionPerformedListener, Result.A
     }
 
     override fun share() {
-        Log.d("myLogs",composeMessage())
-        //val intent = Intent(this,Intent.)
+       /* Log.d("myLogs",composeMessage())
+        val uri = Uri.parse(composeMessage())*/
+        val intent = Intent()
+        val subject = "Quiz results"
+        val messageBody = composeMessage()
+        intent.action = Intent.ACTION_SEND
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_SUBJECT,subject)
+        intent.putExtra(Intent.EXTRA_TEXT,messageBody)
+        startActivity(intent)
         //TODO share result using intent, compose result text
     }
     private fun composeMessage(): String {
