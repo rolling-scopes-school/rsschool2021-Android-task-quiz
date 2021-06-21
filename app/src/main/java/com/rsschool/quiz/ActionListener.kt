@@ -5,4 +5,5 @@ interface ActionListener {
     fun backFragment()
     fun runResultFragment()
     fun addAnswer(numberQuest: Int, numberAnswer: Int)
+    fun checkAnswersCount(): Int
 }

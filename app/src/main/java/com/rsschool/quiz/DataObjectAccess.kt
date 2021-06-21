@@ -11,16 +11,18 @@ class DataObjectAccess {
         numAnswers[numberQuest] = numberAnswer
     }
 
+    // Счетчик ответов
     fun countAnswer(): Int {
         return numAnswers.size
     }
 
+    // Метод написания отчета и подсчета правильных ответов
     fun getResultMessage(): User {
         var result = 0
         var history = "История вопросов и ответов.\n"
 
         for (x in 0..4) {
-            var y = numAnswers[x+1]!!
+            val y = numAnswers[x+1]!!
             if (quizGames[x].numberCorrectAnswer == numAnswers[x + 1]) ++result
             history += "\nВопрос: ${quizGames[x].question}\nВаш ответ: ${quizGames[x].answers[y - 1]}\nПравильный ответ: ${quizGames[x].answers[quizGames[x].numberCorrectAnswer - 1]}"
         }
@@ -37,14 +39,14 @@ class DataObjectAccess {
         QuizObject("Кто также ловок, как рыба в воде?", listOf("Другая рыба", "Аквамен", "Глубина", "Тазик залитый бетоном", "Губка Боб Квадратные Штаны!"), 5,5),
         )
 
-    // Патерн Null-объект
-    private val nullQuizObject = QuizObject("nullQuizObject", listOf("nullQuizObject", "nullQuizObject", "nullQuizObject", "nullQuizObject", "nullQuizObject"), 1,1)
-
-
+    // Для создания фрагментов
     fun getQuizObject(num: Int) : QuizObject {
         return if (num <= quizGames.lastIndex) quizGames[num] else nullQuizObject
     }
 
+    // Для ViewPager2
     fun getSize() : Int = quizGames.lastIndex + 1
 
+    // Патерн Null-объект
+    private val nullQuizObject = QuizObject("nullQuizObject", listOf("nullQuizObject", "nullQuizObject", "nullQuizObject", "nullQuizObject", "nullQuizObject"), 1,1)
 }

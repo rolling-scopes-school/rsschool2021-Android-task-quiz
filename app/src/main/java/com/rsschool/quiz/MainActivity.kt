@@ -37,11 +37,11 @@ class MainActivity : FragmentActivity(), ActionListener {
         viewPager.registerOnPageChangeCallback(object:ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {
                 when(position){
-                    1 -> window.statusBarColor = getColor(R.color.secondaryDarkColorPurple)
-                    2 -> window.statusBarColor = getColor(R.color.secondaryDarkColorBlue)
-                    3 -> window.statusBarColor = getColor(R.color.secondaryDarkColorGreen)
-                    4 -> window.statusBarColor = getColor(R.color.secondaryDarkColorYellow)
-                    5 -> window.statusBarColor = getColor(R.color.secondaryDarkColorOrange)
+                    0 -> window.statusBarColor = getColor(R.color.secondaryDarkColorPurple)
+                    1 -> window.statusBarColor = getColor(R.color.secondaryDarkColorBlue)
+                    2 -> window.statusBarColor = getColor(R.color.secondaryDarkColorGreen)
+                    3 -> window.statusBarColor = getColor(R.color.secondaryDarkColorYellow)
+                    4 -> window.statusBarColor = getColor(R.color.secondaryDarkColorOrange)
                     else -> window.statusBarColor = getColor(R.color.secondaryDarkColor)
                 }
             }
@@ -69,6 +69,10 @@ class MainActivity : FragmentActivity(), ActionListener {
 
     override fun addAnswer(numberQuest: Int, numberAnswer: Int) {
         dataQuiz.addAnswer(numberQuest, numberAnswer)
+    }
+
+    override fun checkAnswersCount(): Int {
+        return dataQuiz.countAnswer()
     }
 
 }

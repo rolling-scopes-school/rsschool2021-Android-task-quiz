@@ -15,6 +15,7 @@ const val ARG_OBJECT = "object"
 // Этот фрагмент будет использоваться для каждого нового экрана в приложении, мы будем создавать новый его экземпляр и передавать туда его порядковый номер.
 class BlankFragment : Fragment() {
 
+    // Крутая штука, что бы словить null и получить исключение именно здесь, а не в методах класса
     private var _listener: ActionListener? = null
     private val listener get() = _listener!!
     private var _binding: FragmentQuizBinding? = null
@@ -22,8 +23,7 @@ class BlankFragment : Fragment() {
 
     private var currentFragment = 0
 
-
-    // Добавляем слушатель через контекст
+    // Добавляем сслыку на MainActivity через контекст
     override fun onAttach(context: Context) {
         super.onAttach(context)
         _listener = context as ActionListener
@@ -48,8 +48,11 @@ class BlankFragment : Fragment() {
 
             // Чтобы получить отправленные данные при загрузке из Bundle arguments, можно воспользоваться методом get(), в который передается ключ объекта:
             val quizObject: QuizObject = get(ARG_OBJECT) as QuizObject
+
+            // Для условий
             currentFragment = quizObject.numberQuestion
 
+            // Заполняем текстовые формы
             binding.toolbar.title = "Question ${quizObject.numberQuestion}"
             binding.question.text = quizObject.question
             binding.optionOne.text = quizObject.answers[0]
@@ -58,18 +61,17 @@ class BlankFragment : Fragment() {
             binding.optionFour.text = quizObject.answers[3]
             binding.optionFive.text = quizObject.answers[4]
 
+            // Блокируем кнопку до выбора ответа
             binding.nextButton.isEnabled = false
+            // Блокируем кнопку первого фрагмента
             binding.previousButton.isEnabled = currentFragment >= 2
 
-            // Сделать проверку наличия ответов
+            // Сделать проверку наличия ответов listener.checkAnswersCount() == 5
             if (currentFragment > 4) binding.nextButton.text = "Submit"
         }
 
         binding.nextButton.setOnClickListener {
-            if (currentFragment > 4) {
-                listener.runResultFragment()
-
-            }
+            if (currentFragment > 4) listener.runResultFragment()
                 else listener.nextFragment()
         }
 
@@ -89,6 +91,7 @@ class BlankFragment : Fragment() {
                 binding.optionFour.id -> listener.addAnswer(currentFragment, 4)
                 binding.optionFive.id -> listener.addAnswer(currentFragment, 5)
             }
+            // Когда выбор ответа сделан - освобождаем кнопку
             binding.nextButton.isEnabled = true
         }
     }
