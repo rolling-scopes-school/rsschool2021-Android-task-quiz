@@ -19,9 +19,9 @@ class Result : Fragment() {
     private val binding get() = requireNotNull(_binding)
 
     interface ActionPerformedListener {
-        fun startNewQuiz ()
+        fun onBackButton ()
         fun onCloseButton()
-        fun share()
+        fun onShareButton()
     }
     override fun onAttach(context: Context) {
         super.onAttach(context)

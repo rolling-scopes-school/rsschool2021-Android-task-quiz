@@ -2,9 +2,7 @@ package com.rsschool.quiz
 
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -16,63 +14,71 @@ class MainActivity : AppCompatActivity(), Quiz.ActionPerformedListener, Result.A
     private lateinit var fragment:      Fragment
     private lateinit var transaction:   FragmentTransaction
     private lateinit var binding:       ActivityMainBinding
-    private          var navigation =   0 // number of active page
-    private lateinit var answers:       MutableMap<Int,Int>
-    // MutableMap<Int,MutableMap<Int,Boolean>>  //TODO try to sparseArray
-                                        //<#question(navigation),<answer,isCorrect>
-    //private lateinit var isCorrect:     MutableMap<Int,Boolean>// todo noneed?
-    //private lateinit var keys:          MutableMap<Int,Int>
-                                        //<navi,answer>
+    private          var navigation =   0                               // number of active page
+    private lateinit var answers:       MutableMap<Int,Int>             // collection for answers key = number of page/question, value = answer
+    private lateinit var questionList:  List<Question>                  // collection of Questions & answers (see ResRepo.kt)
 
-    private lateinit var questionList: List<Question>
-
-    override fun nextQuestion(answer: Int) {//todo accept answer: Int, question: Question
-        /*isCorrect[navigation]   = correct
-        keys[navigation]        = answer*/
-        answers[navigation]     = answer                                 // Save Question, answer and isCorrect
-        answers.forEach { Log.d("myLogs","$it") }//todo!!!!!!
-        if(navigation < 4) {
-            openQuestion(answers[++navigation],navigation)
-            setStatusBarColor()
-        } else {
-            navigation++
-            setStatusBarColor()
-            openResult()
+    override fun onNextButton(answer: Int) {
+        answers[navigation]     = answer                                // save answer to collection
+        if(navigation < 4) {                                            // if active page<4 theme
+            openQuestion(answers[++navigation],navigation)              // open next question
+            setStatusBarColor()                                         // and change statusBar color
+        } else {                                                        // else (navigation == 4)
+            navigation++                                                //
+            setStatusBarColor()                                         // change statusBar color
+            openResult()                                                // open result fragment
         }
     }
 
-    override fun previousQuestion(answer: Int) {
-        answers[navigation]        = answer
-        openQuestion(answers[--navigation],navigation)
-        setStatusBarColor()
+    override fun onPreviousButton(answer: Int) {
+        answers[navigation]        = answer                             // save answer (before "Next" button) to collection
+        openQuestion(answers[--navigation],navigation)                  // open previous question
+        setStatusBarColor()                                             // and change statusBar color
     }
 
+    override fun onBackButton() {
+        clear()                                                         // reset application
+        openQuestion(null,navigation)                          // open first question
+    }
+
+    override fun onCloseButton() {
+        this.finish()                                                   // close application
+    }
+
+    override fun onShareButton() {                                      // Share.
+        val subject     = "Quiz results"
+        val messageBody = composeMessage()
+        val intent      = Intent().apply {
+            this.action = Intent.ACTION_SEND
+            this.type   = "text/plain"
+            this.putExtra(Intent.EXTRA_SUBJECT,subject)
+            this.putExtra(Intent.EXTRA_TEXT,messageBody)
+        }                                                               // Create intent with Extra
+        startActivity(intent)                                           // Start activity
+    }
+    //todo refactor from here
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding     = ActivityMainBinding.inflate(layoutInflater)
-        answers     = mutableMapOf()                       //init array for answers
-        questionList    = ResRepo().getQuestions()      //get list of questions
+        binding         = ActivityMainBinding.inflate(layoutInflater)
+        answers         = mutableMapOf()                                //init array for answers
+        questionList    = ResRepo().getQuestions()                      //get list of questions
         setContentView(binding.root)
         openQuestion(null,navigation)
     }
-    private fun openQuestion (prevAnswer: Int?,question: Int){         //start with 0
-        fragment    = Quiz.newInstance(prevAnswer,question)
-        transaction = supportFragmentManager.beginTransaction()
+
+    private fun openQuestion (prevAnswer: Int?,question: Int){          //start with 0
+        fragment        = Quiz.newInstance(prevAnswer,question)
+        transaction     = supportFragmentManager.beginTransaction()
         transaction.replace(binding.Container.id,fragment) .commit()
     }
+
     private fun openResult(){
-        val resultQuiz = "You result is: ${correctAnswersCount()}/5"
+        val resultQuiz  = "You result is: ${correctAnswersCount()}/5"
         val result:     Fragment             = Result.newInstance(resultQuiz)
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         transaction.replace(binding.Container.id,result).commit()
     }
-    private fun clear(){
-        navigation = 0
-        answers.clear()
-        /*isCorrect.clear()
-        keys.clear()*/
-        setStatusBarColor()
-    }
+
     private fun setStatusBarColor(){
         when(navigation){
             0       -> window.statusBarColor = this.resources.getColor(R.color.deep_orange_100_dark)
@@ -83,6 +89,7 @@ class MainActivity : AppCompatActivity(), Quiz.ActionPerformedListener, Result.A
             else    -> window.statusBarColor = this.resources.getColor(R.color.deep_orange_100_dark)
         }
     }
+
     private fun correctAnswersCount(): Int{
         var count = 0
         for (i in answers.keys){
@@ -92,37 +99,17 @@ class MainActivity : AppCompatActivity(), Quiz.ActionPerformedListener, Result.A
         return count
     }
 
-    override fun startNewQuiz() {
-        clear()                                 //todo theme change on result to default
-        openQuestion(null,navigation)
-
+    private fun clear(){
+        navigation = 0
+        answers.clear()
+        setStatusBarColor()
     }
 
-    override fun onCloseButton() {
-        this.finish()
-    }
-
-    override fun share() {
-       /* Log.d("myLogs",composeMessage())
-        val uri = Uri.parse(composeMessage())*/
-        val intent = Intent()
-        val subject = "Quiz results"
-        val messageBody = composeMessage()
-        intent.action = Intent.ACTION_SEND
-        intent.type = "text/plain"
-        intent.putExtra(Intent.EXTRA_SUBJECT,subject)
-        intent.putExtra(Intent.EXTRA_TEXT,messageBody)
-        startActivity(intent)
-        //TODO share result using intent, compose result text
-    }
-    private fun composeMessage(): String {
-        val str = StringBuffer("\nYou result is: ${correctAnswersCount()}/5")
-        //todo str compose
-        for(i in answers.keys){
-            str.append("\n")
-            str.append("\n ${questionList[i].question}")
-            str.append("\n Your answer is: ${questionList[i].answers[answers[i] ?: -1]}")
-        }
-        return str.toString()
-    }
+    private fun composeMessage() = StringBuffer("You result is: ${correctAnswersCount()}/5").apply{
+            for(i in answers.keys){
+                this.append("\n")
+                this.append("\n ${questionList[i].question}")
+                this.append("\n Your answer is: ${questionList[i].answers[answers[i] ?: -1]}") //todo check "-1"
+            }
+    }.toString()
 }

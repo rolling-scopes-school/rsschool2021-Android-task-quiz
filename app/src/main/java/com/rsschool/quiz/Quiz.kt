@@ -28,8 +28,8 @@ class Quiz : Fragment() {
     private lateinit var outViews: ArrayList<View>    //array for view of toolbar with describing
 
     interface ActionPerformedListener {
-        fun nextQuestion (answer: Int)
-        fun previousQuestion (answer: Int)
+        fun onNextButton (answer: Int)
+        fun onPreviousButton (answer: Int)
     }
 
     override fun onAttach(context: Context) {
@@ -81,21 +81,20 @@ class Quiz : Fragment() {
                     group, checkedId ->
                 answer = group.indexOfChild(group.findViewById(checkedId))
                 nextButton.isEnabled = true
-                //TODO REMEMBERING NOT SUBMITTED -Done!!!
             }
            
             nextButton.setOnClickListener {                        //btnNext listener
                // if(answer == questionList[questionNumber].correct )
-                    listener?.nextQuestion(answer)
+                    listener?.onNextButton(answer)
               //  else listener?.nextQuestion(answer, false)
             }
             previousButton.setOnClickListener {
-                listener?.previousQuestion(answer)
+                listener?.onPreviousButton(answer)
             }   //btnPrev listener
 
             toolbar.setNavigationOnClickListener {              //Navigation listener
                 //previousQuestion() TODO If pageIndex ==0 ....
-                listener?.previousQuestion(answer)
+                listener?.onPreviousButton(answer)
             }
 
         }
