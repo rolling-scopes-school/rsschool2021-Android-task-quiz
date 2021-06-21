@@ -11,6 +11,10 @@ class DataObjectAccess {
         numAnswers[numberQuest] = numberAnswer
     }
 
+    fun countAnswer(): Int {
+        return numAnswers.size
+    }
+
     fun getResultMessage(): User {
         var result = 0
         var history = "История вопросов и ответов.\n"

@@ -17,6 +17,7 @@ public class MainActivity : FragmentActivity(), ActionListener {
     // Ресурсы
     private lateinit var binding: ActivityMainBinding
     private val dataQuiz = DataObjectAccess()
+    // private val position = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +41,7 @@ public class MainActivity : FragmentActivity(), ActionListener {
 
     override fun nextFragment() {
         ++viewPager.currentItem
+        // viewPager.isUserInputEnabled = false
     }
 
     override fun backFragment() {

@@ -34,13 +34,7 @@ class BlankFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        // я просто создал массив R.style и загружал просто при каждом переключении
-        // context?.setTheme(id)
-
-        // цвет выдергивал в onCreateView до inflate. А цвет менял в методе viewPager.registerOnPageChangeCallback(object:ViewPager2.OnPageChangeCallback(){
-        //            override fun onPageSelected(position: Int) {}}
-        //этот метод выполняется при смене страницы и в position передается номер страницы
-
+        // activity?.theme?.applyStyle(R.style.Theme_Quiz_Purple, true)
 
         // return inflater.inflate(R.layout.fragment_blank, container, false)
         _binding = FragmentQuizBinding.inflate(inflater, container, false)
@@ -60,6 +54,29 @@ class BlankFragment : Fragment() {
 
             // Общее для всех функций свойство класса
             tempInt = quizObject.numberQuestion
+
+            when (tempInt) {
+                1 -> {
+                    activity?.theme?.applyStyle(R.style.Theme_Quiz_Purple, true)
+                    // activity?.window?.statusBarColor = resources.getColor(R.color.secondaryDarkColorPurple)
+                }
+                2 -> {
+                    activity?.theme?.applyStyle(R.style.Theme_Quiz_Blue, true)
+                    // activity?.window?.statusBarColor = resources.getColor(R.color.secondaryDarkColorBlue)
+                }
+                3 -> {
+                    activity?.theme?.applyStyle(R.style.Theme_Quiz_Green, true)
+                    // activity?.window?.statusBarColor = resources.getColor(R.color.secondaryDarkColorGreen)
+                }
+                4 -> {
+                    activity?.theme?.applyStyle(R.style.Theme_Quiz_Yellow, true)
+                    // activity?.window?.statusBarColor = resources.getColor(R.color.secondaryDarkColorYellow)
+                }
+                5 -> {
+                    activity?.theme?.applyStyle(R.style.Theme_Quiz_Orange, true)
+                    // activity?.window?.statusBarColor = resources.getColor(R.color.secondaryDarkColorOrange)
+                }
+            }
 
             binding.question.text = quizObject.question
             binding.optionOne.text = quizObject.answers[0]
