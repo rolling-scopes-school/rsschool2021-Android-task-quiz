@@ -19,7 +19,7 @@ private const val ARG_PARAM2 = "param2"
 class Quiz : Fragment() {
 
     private var _binding:               Fragment1QuizBinding? = null
-    private val binding get()               = requireNotNull (_binding)
+    private val binding get()               = requireNotNull(_binding)
     private var listener:               ActionPerformedListener? = null
     private var answer:                 Int = -1                            // for answers (radioButton)
     private var previousAnswer:         Int = -1                            // answer to previous question
@@ -75,7 +75,7 @@ class Quiz : Fragment() {
                     radioContent.add(optionFive)
 
             toolbar.findViewsWithText(                                      // find back Button and send to the arrayList
-                outViews,"Back to the previous question",               //TODO Rework this method to valid method
+                outViews,"Back to the previous question",               //
                 View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION)
 
             radioGroup.setOnCheckedChangeListener {                         //radioGroup listener

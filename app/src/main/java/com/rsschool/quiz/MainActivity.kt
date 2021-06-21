@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity(), Quiz.ActionPerformedListener, Result.A
     }
 
     private fun openResult(){                                           // method opens fragment with result of quiz
-        val resultQuiz  = "You result is: ${correctAnswersCount()}/5"
+        val resultQuiz  = "You result: ${correctAnswersCount()}/5"
         val result:     Fragment             = Result.newInstance(resultQuiz)
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         transaction.replace(binding.Container.id,result).commit()
@@ -101,11 +101,11 @@ class MainActivity : AppCompatActivity(), Quiz.ActionPerformedListener, Result.A
         return count
     }
                                                                         // compose message with results
-    private fun composeMessage() = StringBuffer("You result is: ${correctAnswersCount()}/5").apply{
+    private fun composeMessage() = StringBuffer("You result: ${correctAnswersCount()}/5").apply{
             for(i in answers.keys){
                 this.append("\n")
                 this.append("\n ${i+1}) ${questionList[i].question}")
-                this.append("\n Your answer is: ${questionList[i].answers[requireNotNull(answers[i])]}")
+                this.append("\n Your answer: ${questionList[i].answers[requireNotNull(answers[i])]}")
             }
     }.toString()
 }
