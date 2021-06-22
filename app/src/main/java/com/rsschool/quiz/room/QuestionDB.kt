@@ -7,7 +7,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [Question::class], version = 3, exportSchema = false)
+@Database(entities = [Question::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class QuestionDB : RoomDatabase() {
 
