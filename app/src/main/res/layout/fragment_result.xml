@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#373E68"
-    tools:context=".ResultFragment">
+    tools:context=".screens.result.ResultFragment">
 
     <TextView
         android:id="@+id/textView_result"

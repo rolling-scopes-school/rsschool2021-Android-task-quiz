@@ -1,4 +1,4 @@
-package com.rsschool.quiz
+package com.rsschool.quiz.screens.start
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,9 +8,8 @@ import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
-import androidx.navigation.navOptions
-import com.rsschool.quiz.StartFragmentDirections.ActionStartFragmentToQuizFragment
 import com.rsschool.quiz.databinding.FragmentStartBinding
+import com.rsschool.quiz.room.Question
 
 class StartFragment : Fragment() {
     private var _binding: FragmentStartBinding? = null
@@ -130,7 +129,12 @@ class StartFragment : Fragment() {
 
         binding.buttonStart.setOnClickListener() {
             view?.findNavController()
-                ?.navigate(StartFragmentDirections.actionStartFragmentToQuizFragment(questions, 0))
+                ?.navigate(
+                    StartFragmentDirections.actionStartFragmentToQuizFragment(
+                        questions,
+                        0
+                    )
+                )
         }
         return binding.root
     }

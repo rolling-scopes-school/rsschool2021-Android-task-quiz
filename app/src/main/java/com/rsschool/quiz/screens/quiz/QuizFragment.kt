@@ -1,4 +1,4 @@
-package com.rsschool.quiz
+package com.rsschool.quiz.screens.quiz
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,9 @@ import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.rsschool.quiz.R
 import com.rsschool.quiz.databinding.FragmentQuizBinding
+import com.rsschool.quiz.room.Question
 
 class QuizFragment : Fragment() {
 
@@ -21,7 +23,7 @@ class QuizFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val args = QuizFragmentArgs.fromBundle(requireArguments())
+        val args = com.rsschool.quiz.QuizFragmentArgs.fromBundle(requireArguments())
         questions = args.questions.toMutableList()
         questionNumber = args.questionNumber
         setTheme()
@@ -41,7 +43,7 @@ class QuizFragment : Fragment() {
                 when (it.itemId) {
                     R.id.item_test -> {
                         view?.findNavController()
-                            ?.navigate(QuizFragmentDirections.actionQuizFragmentToStartFragment())
+                            ?.navigate(com.rsschool.quiz.QuizFragmentDirections.actionQuizFragmentToStartFragment())
                         true
                     }
                     else -> true
@@ -75,14 +77,14 @@ class QuizFragment : Fragment() {
             nextButton.setOnClickListener {
                 if (questionNumber == questions.size - 1) {
                     view?.findNavController()?.navigate(
-                        QuizFragmentDirections.actionQuizFragmentToResultFragment(
+                        com.rsschool.quiz.QuizFragmentDirections.actionQuizFragmentToResultFragment(
                             questions.toTypedArray()
                         )
                     )
                 } else {
                     questionNumber++
                     view?.findNavController()?.navigate(
-                        QuizFragmentDirections.actionQuizFragmentSelf(
+                        com.rsschool.quiz.QuizFragmentDirections.actionQuizFragmentSelf(
                             questions.toTypedArray(), questionNumber
                         )
                     )
@@ -125,7 +127,7 @@ class QuizFragment : Fragment() {
         if (questionNumber != 0) {
             questionNumber--
             view?.findNavController()?.navigate(
-                QuizFragmentDirections.actionQuizFragmentSelf2(
+                com.rsschool.quiz.QuizFragmentDirections.actionQuizFragmentSelf2(
                     questions.toTypedArray(), questionNumber
                 )
             )

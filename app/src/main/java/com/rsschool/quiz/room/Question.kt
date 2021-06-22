@@ -1,23 +1,30 @@
-package com.rsschool.quiz
+package com.rsschool.quiz.room
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.util.ArrayList
 
+@Entity(tableName = "question")
 data class Question(
-    val question: String?,
-    val answers: ArrayList<String>?,
-    val rightAnswer: String?,
-    var answer: Int = -1
+    @PrimaryKey(autoGenerate = true) var questionID: Int = 0,
+    @ColumnInfo(name = "question") var question: String?,
+    @ColumnInfo(name = "answers") var answers: ArrayList<String>?,
+    @ColumnInfo(name = "right_answer") var rightAnswer: String?,
+    @ColumnInfo(name = "answer") var answer: Int = -1
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readInt(),
         parcel.readString(),
         parcel.createStringArrayList(),
         parcel.readString(),
         parcel.readInt()
-    )
-
+    ) {
+    }
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(questionID)
         parcel.writeString(question)
         parcel.writeStringList(answers)
         parcel.writeString(rightAnswer)

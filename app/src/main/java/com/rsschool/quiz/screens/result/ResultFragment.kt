@@ -1,4 +1,4 @@
-package com.rsschool.quiz
+package com.rsschool.quiz.screens.result
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.navigation.findNavController
+import com.rsschool.quiz.R
 import com.rsschool.quiz.databinding.FragmentResultBinding
+import com.rsschool.quiz.room.Question
 import java.lang.StringBuilder
 
 class ResultFragment : Fragment() {
@@ -83,6 +85,9 @@ class ResultFragment : Fragment() {
     private fun rightAnswers(): Int {
         return questions.filter { it.rightAnswer == it.answers?.get(it.answer) }.size
     }
+
+    
+
 
     private fun addSmile() {
 //        val background: Int
