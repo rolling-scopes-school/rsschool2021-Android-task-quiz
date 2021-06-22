@@ -1,6 +1,7 @@
 package com.rsschool.quiz.room
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface QuestionDAO {
@@ -21,5 +22,5 @@ interface QuestionDAO {
     suspend fun clear()
 
     @Query("SELECT * FROM question")
-    fun getAllQuestion(): List<Question>
+    fun getAllQuestion(): Flow<List<Question>>
 }

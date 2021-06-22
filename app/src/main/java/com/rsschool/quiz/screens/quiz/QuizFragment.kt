@@ -23,7 +23,7 @@ class QuizFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val args = com.rsschool.quiz.QuizFragmentArgs.fromBundle(requireArguments())
+        val args = QuizFragmentArgs.fromBundle(requireArguments())
         questions = args.questions.toMutableList()
         questionNumber = args.questionNumber
         setTheme()
@@ -43,7 +43,7 @@ class QuizFragment : Fragment() {
                 when (it.itemId) {
                     R.id.item_test -> {
                         view?.findNavController()
-                            ?.navigate(com.rsschool.quiz.QuizFragmentDirections.actionQuizFragmentToStartFragment())
+                            ?.navigate(QuizFragmentDirections.actionQuizFragmentToStartFragment())
                         true
                     }
                     else -> true
@@ -77,14 +77,14 @@ class QuizFragment : Fragment() {
             nextButton.setOnClickListener {
                 if (questionNumber == questions.size - 1) {
                     view?.findNavController()?.navigate(
-                        com.rsschool.quiz.QuizFragmentDirections.actionQuizFragmentToResultFragment(
+                        QuizFragmentDirections.actionQuizFragmentToResultFragment(
                             questions.toTypedArray()
                         )
                     )
                 } else {
                     questionNumber++
                     view?.findNavController()?.navigate(
-                        com.rsschool.quiz.QuizFragmentDirections.actionQuizFragmentSelf(
+                       QuizFragmentDirections.actionQuizFragmentSelf(
                             questions.toTypedArray(), questionNumber
                         )
                     )
@@ -127,7 +127,7 @@ class QuizFragment : Fragment() {
         if (questionNumber != 0) {
             questionNumber--
             view?.findNavController()?.navigate(
-                com.rsschool.quiz.QuizFragmentDirections.actionQuizFragmentSelf2(
+                QuizFragmentDirections.actionQuizFragmentSelf2(
                     questions.toTypedArray(), questionNumber
                 )
             )

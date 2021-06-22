@@ -1,16 +1,20 @@
 package com.rsschool.quiz.room
 
 import androidx.room.TypeConverter
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import java.util.ArrayList
 
 class Converters {
+
     @TypeConverter
-    fun fromString(stringListString: String): ArrayList<String> {
-        return stringListString.split(",").map { it } as ArrayList<String>
+    fun fromList(value: ArrayList<String>?): String {
+        return Json.encodeToString(value)
     }
 
     @TypeConverter
-    fun toString(stringList: ArrayList<String>): String {
-        return stringList.joinToString(separator = ",")
+    fun toList(value: String): ArrayList<String>? {
+        return Json.decodeFromString(value)
     }
-
 }
