@@ -47,7 +47,6 @@ class MainActivity : FragmentActivity(), ActionListener {
             }
         }
         )
-
     }
 
     // Методы для кнопок, менять фрагменты

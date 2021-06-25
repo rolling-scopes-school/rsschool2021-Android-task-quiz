@@ -63,8 +63,11 @@ class BlankFragment : Fragment() {
 
             // Блокируем кнопку до выбора ответа
             binding.nextButton.isEnabled = false
-            // Блокируем кнопку первого фрагмента
-            binding.previousButton.isEnabled = currentFragment >= 2
+            // Блокируем кнопки первого фрагмента
+            if (currentFragment < 2) {
+                binding.previousButton.isEnabled = false
+                binding.toolbar.navigationIcon = null
+            }
 
             // Меняем надпись на последнем фрагменте
             if (currentFragment > 4) binding.nextButton.text = "Submit"
