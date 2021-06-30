@@ -17,4 +17,59 @@
     <color name="deep_purple_100">#d1c4e9</color>
     <color name="deep_purple_100_light">#fff7ff</color>
     <color name="deep_purple_100_dark">#a094b7</color>
+
+    <color name="primaryColor">#ff7043</color>
+    <color name="primaryLightColor">#ffa270</color>
+    <color name="primaryDarkColor">#c63f17</color>
+    <color name="secondaryColor">#e64a19</color>
+    <color name="secondaryLightColor">#ff7d47</color>
+    <color name="secondaryDarkColor">#ac0800</color>
+    <color name="primaryTextColor">#000000</color>
+    <color name="secondaryTextColor">#000000</color>
+
+    <color name="primaryColorOrange">#ffa726</color>
+    <color name="primaryLightColorOrange">#ffd95b</color>
+    <color name="primaryDarkColorOrange">#c77800</color>
+    <color name="secondaryColorOrange">#f57c00</color>
+    <color name="secondaryLightColorOrange">#ffad42</color>
+    <color name="secondaryDarkColorOrange">#bb4d00</color>
+    <color name="primaryTextColorOrange">#000000</color>
+    <color name="secondaryTextColorOrange">#000000</color>
+
+    <color name="primaryColorYellow">#ffee58</color>
+    <color name="primaryLightColorYellow">#ffff8b</color>
+    <color name="primaryDarkColorYellow">#c9bc1f</color>
+    <color name="secondaryColorYellow">#fbc02d</color>
+    <color name="secondaryLightColorYellow">#fff263</color>
+    <color name="secondaryDarkColorYellow">#c49000</color>
+    <color name="primaryTextColorYellow">#000000</color>
+    <color name="secondaryTextColorYellow">#000000</color>
+
+    <color name="primaryColorGreen">#66bb6a</color>
+    <color name="primaryLightColorGreen">#98ee99</color>
+    <color name="primaryDarkColorGreen">#338a3e</color>
+    <color name="secondaryColorGreen">#388e3c</color>
+    <color name="secondaryLightColorGreen">#6abf69</color>
+    <color name="secondaryDarkColorGreen">#00600f</color>
+    <color name="primaryTextColorGreen">#000000</color>
+    <color name="secondaryTextColorGreen">#000000</color>
+
+    <color name="primaryColorBlue">#42a5f5</color>
+    <color name="primaryLightColorBlue">#80d6ff</color>
+    <color name="primaryDarkColorBlue">#0077c2</color>
+    <color name="secondaryColorBlue">#1976d2</color>
+    <color name="secondaryLightColorBlue">#63a4ff</color>
+    <color name="secondaryDarkColorBlue">#004ba0</color>
+    <color name="primaryTextColorBlue">#000000</color>
+    <color name="secondaryTextColorBlue">#ffffff</color>
+
+    <color name="primaryColorPurple">#ab47bc</color>
+    <color name="primaryLightColorPurple">#df78ef</color>
+    <color name="primaryDarkColorPurple">#790e8b</color>
+    <color name="secondaryColorPurple">#7b1fa2</color>
+    <color name="secondaryLightColorPurple">#ae52d4</color>
+    <color name="secondaryDarkColorPurple">#4a0072</color>
+    <color name="primaryTextColorPurple">#ffffff</color>
+    <color name="secondaryTextColorPurple">#ffffff</color>
+
 </resources>
